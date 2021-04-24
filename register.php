@@ -74,16 +74,6 @@ function getInputValue($name) {
 						<input id="username" type="text" name="username" placeholder="jdoemusic" value="<?php getInputValue('username'); ?>" required="">
 					</p>
 					<p>
-						<?php echo $account->getError(Constants::$firstNameCharacters) ?>
-						<label for="firstName">First Name: </label>
-						<input id="firstName" type="text" name="firstName" placeholder="Jane" value="<?php getInputValue('firstName'); ?>" required="">
-					</p>
-					<p>
-						<?php echo $account->getError(Constants::$lastNameCharacters) ?>
-						<label for="lastName">Last Name: </label>
-						<input id="lastName" type="text" name="lastName" placeholder="Doe" value="<?php getInputValue('lastName'); ?>" required="">
-					</p>
-					<p>
 						<?php echo $account->getError(Constants::$emailsDoNotMatch) ?>
 						<?php echo $account->getError(Constants::$emailInvalid) ?>
 						<?php echo $account->getError(Constants::$emailTaken) ?>
@@ -96,7 +86,6 @@ function getInputValue($name) {
 					</p>
 					<p>
 						<?php echo $account->getError(Constants::$passwordsDoNotMatch) ?>
-						<?php echo $account->getError(Constants::$passwordNotAlphanumeric) ?>
 						<?php echo $account->getError(Constants::$passwordCharacters) ?>
 						<label for="password">Password: </label>
 						<input id="password" type="password" name="password" placeholder="******" required="">

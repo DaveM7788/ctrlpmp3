@@ -8,28 +8,30 @@ class Account {
 	}
 
 	public function login($un, $pw) {
-		//$pw = md5($pw); // !!!!!!!!!!!!!NOT GOOD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		$pw = password_hash($pw, PASSWORD_BCRYPT);
-		$query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$un' AND password='$pw'");
+		$query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$un' LIMIT 1");
 		if (mysqli_num_rows($query) == 1) {
-			return true;
-		}
-		else {
+			while ($row = mysqli_fetch_row($query)) {
+				if (password_verify($pw, $row[3])) {
+					return true;
+				} else {
+					array_push($this->errorArray, Constants::$loginFailed);
+					return false;
+				}
+			}
+		} else {
 			array_push($this->errorArray, Constants::$loginFailed);
 			return false;
 		}
+
 	}
 
-	public function register($un, $fn, $ln, $em, $em2, $pw, $pw2) {
+	public function register($un, $em, $em2, $pw, $pw2) {
 		$this->validateUsername($un);
-		$this->validateFirstName($fn);
-		$this->validateLastName($ln);
 		$this->validateEmails($em, $em2);
 		$this->validatePasswords($pw, $pw2);
 
 		if (empty($this->errorArray)) {
-			// Insert into db
-			return $this->insertUserDetials($un, $fn, $ln, $em, $pw);
+			return $this->insertUserDetials($un, $em, $pw);
 		}
 		else {
 			return false;
@@ -43,13 +45,10 @@ class Account {
 		return "<span class='errorMessage'>$error</span>";
 	}
 
-	private function insertUserDetials($un, $fn, $ln, $em, $pw) {
-		//$encrypt = md5($pw);  // !!!!!! WE NEED TO CHANGE THIS 
-		$encrypt = password_hash($pw, PASSWORD_BCRYPT);
-		$profilePic = "assets/images/profile-pics/productivityICOOn.ico";
+	private function insertUserDetials($un, $em, $pw) {
+		$hashed = password_hash($pw, PASSWORD_BCRYPT);
 		$date = date("Y-m-d");
-		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NEED PREPARED STMTS
-		$result = mysqli_query($this->con, "INSERT INTO users VALUES ('', '$un', '$fn', '$ln', '$em', '$encrypt', '$date', '$profilePic')");
+		$result = mysqli_query($this->con, "INSERT INTO users VALUES ('', '$un', '$em', '$hashed', '$date')");
 		return $result;
 	}
 
@@ -67,20 +66,6 @@ class Account {
 			return;
 		}
 	} 
-
-	private function validateFirstName($fn) {
-		if (strlen($fn) > 25 || strlen($fn) < 2) {
-			array_push($this->errorArray, Constants::$firstNameCharacters);
-			return;
-		}
-	}
-
-	private function validateLastName($ln) {
-		if (strlen($ln) > 25 || strlen($ln) < 2) {
-			array_push($this->errorArray, Constants::$lastNameCharacters);
-			return;
-		}
-	}
 
 	private function validateEmails($em, $em2) {
 		if ($em != $em2) {

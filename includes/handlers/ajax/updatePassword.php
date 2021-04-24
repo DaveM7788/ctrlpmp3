@@ -18,33 +18,35 @@ if ($_POST['oldPassword'] == "" || $_POST['newPassword1'] == "" || $_POST['newPa
 
 $username = $_POST['username'];
 $oldPassword = $_POST['oldPassword'];
+$oldPassword = strip_tags($oldPassword);
 $newPassword1 = $_POST['newPassword1'];
 $newPassword2 = $_POST['newPassword2'];
-
-$oldHash = password_hash($oldPassword, PASSWORD_BCRYPT);
-
-$passwordCheck = mysqli_query($con, "SELECT * FROM users WHERE username='$username' AND password='$oldHash'");
-if (mysqli_num_rows($passwordCheck) != 1) {
-	echo "Password is incorrect";
-	exit();
-}
 
 if ($newPassword1 != $newPassword2) {
 	echo "The new passwords do not match" . $newPassword1 . "    " . $newPassword2;
 	exit();
 }
 
-if (preg_match('/[^A-Za-z0-9]/', $newPassword1)) {
-	echo "Password must only have letters and numbers";
+if (strlen($newPassword1) > 40 || strlen($newPassword1) < 6) {
+	echo "Passwords must be between 6 and 40 characters";
 	exit();
 }
 
-if (strlen($newPassword1) > 30 || strlen($newPassword1) < 7) {
-	echo "Passwords must be between 7 and 30 characters";
+$query = mysqli_query($con, "SELECT * FROM users WHERE username='$username' LIMIT 1");
+if (mysqli_num_rows($query) == 1) {
+	while ($row = mysqli_fetch_row($query)) {
+		if (!password_verify($oldPassword, $row[3])) {
+			echo "Password is incorrect";
+			exit();
+		}
+	}
+} else {
+	echo "Password is incorrect";
 	exit();
 }
 
+$newPassword1 = strip_tags($newPassword1);
 $newHash = password_hash($newPassword1, PASSWORD_BCRYPT);
-
 $query = mysqli_query($con, "UPDATE users SET password='$newHash' WHERE username='$username'");
+
 echo "Update successful";
