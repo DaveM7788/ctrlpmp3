@@ -2,8 +2,7 @@
 class Constants {
 	// static = do not have to create instance of class first
 	public static $passwordsDoNotMatch = "Your passwords do not match";
-	public static $passwordNotAlphanumeric = "Your can only contain letters and numbers";
-	public static $passwordCharacters = "Your password must be between 7 and 30 characters";
+	public static $passwordCharacters = "Your password must be between 6 and 40 characters";
 	public static $emailInvalid = "Email format is invalid";
 	public static $emailsDoNotMatch = "Your emails do not match";
 	public static $firstNameCharacters = "Your last name must be between 2 and 25 characters";

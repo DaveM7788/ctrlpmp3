@@ -2,7 +2,7 @@
 
 function sanitizeFormUserName($inputText) {
 	$inputText = strip_tags($inputText);  // strip html elements
-	$inputText = str_replace(" ", "", $inputText); // replace all spaces with null
+	$inputText = str_replace(" ", "", $inputText); // replace all spaces with empty
 	return $inputText;
 }
 

@@ -107,13 +107,7 @@ class Account {
 			return;
 		}
 
-		// only allow a-z, a-Z, and 0-9
-		if (preg_match('/[^A-Za-z0-9]/', $pw)) {
-			array_push($this->errorArray, Constants::$passwordNotAlphanumeric);
-			return;
-		}
-
-		if (strlen($pw) > 30 || strlen($pw) < 7) {
+		if (strlen($pw) > 40 || strlen($pw) < 6) {
 			array_push($this->errorArray, Constants::$passwordCharacters);
 			return;
 		}
