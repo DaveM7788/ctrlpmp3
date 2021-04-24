@@ -119,6 +119,16 @@ function deletePlaylist(playlistId) {
 	}
 }
 
+function syncMusic() {
+	$.post("includes/handlers/ajax/syncMusic.php")
+	.done(function(error) {
+		if (error != "") {
+			alert(error);
+			return;
+		}
+	});
+}
+
 function hideOptionsMenu() {
 	// hide options menu on scroll
 	var menu = $(".optionsMenu");

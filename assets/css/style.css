@@ -519,3 +519,7 @@ input:focus {
 	color: #2ebd59;
 	font-weight: 300;
 }
+
+.centerPara {
+  text-align: center;
+}
