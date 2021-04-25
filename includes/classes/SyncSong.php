@@ -6,6 +6,9 @@ class SyncSong {
 		$this->con = $con;
 	}
 
+
+	// need to ignore readme.md     and what to do with non supported characters (japanese / chinese / etc.)
+	// need to create default.jpg
 	public function recurseDirs($path) {
 		$getID3 = new getID3;
 		$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
@@ -34,6 +37,8 @@ class SyncSong {
 		$songImg = "None";
 		$songMime = "None";
 		$songPath = $f['filenamepath'];
+		$position = strpos($songPath, "0_Upload_Music_Here");
+		$songPath = substr($songPath, $position);
 
 		if (isset($f['playtime_string'])) {
 			// playtime in minutes:seconds, formatted string -> goes to database

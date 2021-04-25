@@ -205,7 +205,7 @@ $jsonArray = json_encode($resultArray);
         <div id="nowPlayingLeft">
             <div class="content">
                 <span class="albumLink">
-                    <img src="assets/images/controlp.png" role="link" tabindex="0" class="albumArtwork">
+                    <img src="assets/images/controlp_sq_jpg.jpg" role="link" tabindex="0" class="albumArtwork">
                 </span>
                 <div class="trackInfo">
                     <span class="trackName">

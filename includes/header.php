@@ -21,10 +21,11 @@ else {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome to Slotify</title>
+	<title>Ctrl-P MP3</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="assets/js/script.js"></script>
+	<link rel="icon" href="assets/images/controlp_sq_jpg.jpg">
 </head>
 <body>
 
