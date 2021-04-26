@@ -9,7 +9,7 @@ if (isset($_POST['playlistId']) && isset($_POST['songId'])) {
 	$row = mysqli_fetch_array($orderIdQuery);
 	$order = $row['playlistOrder'];
 
-	$query = mysqli_query($con, "INSERT INTO playlistsongs VALUES('', '$songId', '$playlistId', '$order')");
+	$query = mysqli_query($con, "INSERT INTO playlistsongs VALUES(NULL, '$songId', '$playlistId', '$order')");
 
 }
 else {

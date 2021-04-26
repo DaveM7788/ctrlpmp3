@@ -2,11 +2,11 @@
 class Account {
 	private $errorArray = array();
 	private $con;
-
+	
 	public function __construct($con) {
 		$this->con = $con;
 	}
-
+	
 	public function login($un, $pw) {
 		$query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$un' LIMIT 1");
 		if (mysqli_num_rows($query) == 1) {
@@ -48,7 +48,7 @@ class Account {
 	private function insertUserDetials($un, $em, $pw) {
 		$hashed = password_hash($pw, PASSWORD_BCRYPT);
 		$date = date("Y-m-d");
-		$result = mysqli_query($this->con, "INSERT INTO users VALUES ('', '$un', '$em', '$hashed', '$date')");
+		$result = mysqli_query($this->con, "INSERT INTO users VALUES (NULL, '$un', '$em', '$hashed', '$date')");
 		return $result;
 	}
 

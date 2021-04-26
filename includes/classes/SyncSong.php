@@ -21,9 +21,12 @@ class SyncSong {
 		}
 
 		foreach ($files as $song) {
-			$ThisFileInfo = $getID3->analyze($song);
-			$getID3->CopyTagsToComments($ThisFileInfo);
-			$this->getAudioData($ThisFileInfo);
+			$ending = substr($song, -3);
+			if ($ending != ".md" or $ending != "txt") {
+				$ThisFileInfo = $getID3->analyze($song);
+				$getID3->CopyTagsToComments($ThisFileInfo);
+				$this->getAudioData($ThisFileInfo);
+			}
 		}
 	}
 
@@ -42,7 +45,7 @@ class SyncSong {
 
 		if (isset($f['playtime_string'])) {
 			// playtime in minutes:seconds, formatted string -> goes to database
-			$songDuration = $f['playtime_string']; 
+			$songDuration = $f['playtime_string'];
 		}
 
 		if (isset($f['comments']['title'][0])) {
@@ -100,7 +103,7 @@ class SyncSong {
 			$artistID = $row['id'];
 		}
 		else {
-			$insertArtist = mysqli_query($this->con, "INSERT INTO artists VALUES('', '$artist')");
+			$insertArtist = mysqli_query($this->con, "INSERT INTO artists VALUES(NULL, '$artist')");
 			//$artistID = mysqli_query($this->con, "SELECT max(id) FROM artists");
 			$artistID = $this->getNextId('artists');
 		}
@@ -117,7 +120,7 @@ class SyncSong {
 			$genreID = $row['id'];
 		}
 		else {
-			$insertGenre = mysqli_query($this->con, "INSERT INTO genres VALUES('', '$genre')");
+			$insertGenre = mysqli_query($this->con, "INSERT INTO genres VALUES(NULL, '$genre')");
 			//$genreID = mysqli_query($this->con, "SELECT max(id) FROM genres");
 			$genreID = $this->getNextId('genres');
 		}
@@ -179,7 +182,7 @@ class SyncSong {
 			$insertAlbum = mysqli_query($this->con, "INSERT INTO albums VALUES('', '$title', '$artist', '$genre', '$artworkPath')");
 			$albumID = mysqli_query($this->con, "SELECT max(id) FROM albums");
 			*/
-			mysqli_query($this->con, "INSERT INTO albums VALUES('', '$title', '$artist', '$genre', '$artworkPath')");
+			mysqli_query($this->con, "INSERT INTO albums VALUES(NULL, '$title', '$artist', '$genre', '$artworkPath')");
 			$albumID = $this->getNextId('albums');
 		}
 
