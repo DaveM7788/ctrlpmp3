@@ -129,6 +129,16 @@ function syncMusic() {
 	});
 }
 
+function deleteMusicDB() {
+	$.post("includes/handlers/ajax/deleteMusicDB.php")
+	.done(function(error) {
+		if (error != "") {
+			alert(error);
+			return;
+		}
+	});
+}
+
 function hideOptionsMenu() {
 	// hide options menu on scroll
 	var menu = $(".optionsMenu");

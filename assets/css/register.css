@@ -79,7 +79,7 @@ body, html {
 
 #inputContainer button {
 	background-color: transparent;
-	border-radious: 250px;
+	border-radius: 250px;
 	border: 2px solid #fff;
 	color: #fff;
 	display: block;

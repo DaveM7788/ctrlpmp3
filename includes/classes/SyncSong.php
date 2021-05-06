@@ -6,7 +6,6 @@ class SyncSong {
 		$this->con = $con;
 	}
 
-
 	// need to ignore readme.md     and what to do with non supported characters (japanese / chinese / etc.)
 	// need to create default.jpg
 	public function recurseDirs($path) {
@@ -81,7 +80,7 @@ class SyncSong {
 		$mArtworkPath = $this->alubmArtSave($songImg, $songMime, $songAlbum);
 		$mAlbumId = $this->albumInsert($songAlbum, $mArtistId, $mGenreId, $mArtworkPath);
 		//$songTitle = preg_replace("/^[a-zA-Z0-9]+$/", "", $songTitle);
-		$mSongId = $this->songInsert($songTitle, $mArtistId, $mAlbumId, $mGenreId, $songDuration,
+		$this->songInsert($songTitle, $mArtistId, $mAlbumId, $mGenreId, $songDuration,
 									$songPath, $songTrackNum, 0);
 	}
 
@@ -95,7 +94,7 @@ class SyncSong {
 	}
 
 	public function artistInsert($artist) {
-		$artistID;
+		$artistID = 0;
 		$artistExists = mysqli_query($this->con, "SELECT * FROM artists WHERE name='$artist'");
 		$row = mysqli_fetch_array($artistExists);
 		if (!empty($row)) {
@@ -103,8 +102,7 @@ class SyncSong {
 			$artistID = $row['id'];
 		}
 		else {
-			$insertArtist = mysqli_query($this->con, "INSERT INTO artists VALUES(NULL, '$artist')");
-			//$artistID = mysqli_query($this->con, "SELECT max(id) FROM artists");
+			mysqli_query($this->con, "INSERT INTO artists VALUES(NULL, '$artist')");
 			$artistID = $this->getNextId('artists');
 		}
 
@@ -112,7 +110,7 @@ class SyncSong {
 	}
 
 	public function genreInsert($genre) {
-		$genreID;
+		$genreID = 0;
 		$genreExists = mysqli_query($this->con, "SELECT * FROM genres WHERE name='$genre'");
 		$row = mysqli_fetch_array($genreExists);
 		if (!empty($row)) {
@@ -120,8 +118,7 @@ class SyncSong {
 			$genreID = $row['id'];
 		}
 		else {
-			$insertGenre = mysqli_query($this->con, "INSERT INTO genres VALUES(NULL, '$genre')");
-			//$genreID = mysqli_query($this->con, "SELECT max(id) FROM genres");
+			mysqli_query($this->con, "INSERT INTO genres VALUES(NULL, '$genre')");
 			$genreID = $this->getNextId('genres');
 		}
 
@@ -169,7 +166,6 @@ class SyncSong {
 	}
 
 	public function albumInsert($title, $artist, $genre, $artworkPath) {
-		//$albumID
 		$albumID = 0;
 		$albumExists = mysqli_query($this->con, "SELECT * FROM albums WHERE title='$title'");
 		$row = mysqli_fetch_array($albumExists);
@@ -178,10 +174,6 @@ class SyncSong {
 			$albumID = $row['id'];
 		}
 		else {
-			/*
-			$insertAlbum = mysqli_query($this->con, "INSERT INTO albums VALUES('', '$title', '$artist', '$genre', '$artworkPath')");
-			$albumID = mysqli_query($this->con, "SELECT max(id) FROM albums");
-			*/
 			mysqli_query($this->con, "INSERT INTO albums VALUES(NULL, '$title', '$artist', '$genre', '$artworkPath')");
 			$albumID = $this->getNextId('albums');
 		}
@@ -207,7 +199,6 @@ class SyncSong {
 			$stmt->bind_param("siiissii", $title, $artist, $album, $genre, $duration, $path, $albumOrder, $plays);
 			$stmt->execute();
 			$stmt->close();
-			//$songID = mysqli_query($this->con, "SELECT max(id) FROM songs");
 			$songID = $this->getNextId('songs');
 		}
 		return $songID;

@@ -20,4 +20,12 @@ include("includes/includedFiles.php");
 	<div class="buttonItems">
 		<button class="button" onclick="syncMusic()">Sync Music</button>
 	</div>
+
+	<div class="centerParaMore">
+		<p>Restore music database to empty state</p>
+	</div>
+
+	<div class="buttonItems">
+		<button class="button" onclick="deleteMusicDB()">Delete Music</button>
+	</div>
 </div>

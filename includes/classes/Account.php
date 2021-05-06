@@ -19,7 +19,6 @@ class Account {
 				}
 			}
 		} else {
-			echo "login failed";
 			array_push($this->errorArray, Constants::$loginFailed);
 			return false;
 		}
@@ -31,13 +30,10 @@ class Account {
 		$this->validateEmails($em, $em2);
 		$this->validatePasswords($pw, $pw2);
 
-		echo "trying to register";
-
 		if (empty($this->errorArray)) {
 			return $this->insertUserDetials($un, $em, $pw);
 		}
 		else {
-			echo "register failed";
 			return false;
 		}
 	}
