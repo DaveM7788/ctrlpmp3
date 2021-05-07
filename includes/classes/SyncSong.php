@@ -87,8 +87,12 @@ class SyncSong {
 	public function getNextId($whichTable) {
 		$returnId = 0;
 		$query = mysqli_query($this->con, "SELECT max(id) FROM '$whichTable'");
-		while ($row = mysqli_fetch_row($query)) {
-			$returnId = $row[0];
+		if ($query) {
+			while ($row = mysqli_fetch_row($query)) {
+				$returnId = $row[0];
+			}
+		} else {
+			echo "get next id failed???   $whichTable";
 		}
 		return $returnId;
 	}
@@ -189,7 +193,7 @@ class SyncSong {
 		$result = $stmt->get_result();
 		$stmt->close();
 
-		if ($result->num_rows > 0) {
+		if ($result and $result->num_rows > 0) {
 			$row = $result->fetch_assoc();
 			$songID = $row['id'];
 		}

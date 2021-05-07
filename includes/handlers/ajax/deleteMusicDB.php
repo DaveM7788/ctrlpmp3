@@ -1,29 +1,26 @@
 <?php
 include("../../config.php");
 
-$flagQueryFail = false;
-$flagQueryFail = true;
-
-if ($flagQueryFail) {
-    echo "Error deleting music from DB";
-} else {
-    echo "Success deleting music from DB";
+if (!mysqli_query($con, "DELETE FROM songs")) {
+    echo "could not delete songs";
 }
 
-if (mysqli_query($con, "DELETE * FROM songs")) 
-    echo "songs deleted";
+if (!mysqli_query($con, "DELETE FROM artists")) {
+    echo "could not delete artists";
+}
 
-if (mysqli_query($con, "DELETE * FROM artists")) 
-    echo "artists deleted";
+if (!mysqli_query($con, "DELETE FROM albums")) {
+    echo "could not delete albums";
+}
 
-if (mysqli_query($con, "DELETE * FROM albums"))
-    echo "albums deleted";
+if (!mysqli_query($con, "DELETE FROM genres")) {
+    echo "could not delete genres";
+}
 
-if (mysqli_query($con, "DELETE * FROM genres"))
-    echo "genres deleted";
+if (!mysqli_query($con, "DELETE FROM playlists")) {
+    echo "could not delete playlists";
+}
 
-if (mysqli_query($con, "DELETE * FROM playlists"))
-    echo "playlists deleted";
-
-if (mysqli_query($con, "DELETE * FROM playlistsongs"))
-    echo "playlist songs deleted";
+if (!mysqli_query($con, "DELETE FROM playlistsongs")) {
+    echo "could not delete playlist songs";
+}
