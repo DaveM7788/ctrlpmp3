@@ -79,26 +79,12 @@ class SyncSong {
 		$mGenreId = $this->genreInsert($songGenre);
 		$mArtworkPath = $this->alubmArtSave($songImg, $songMime, $songAlbum);
 		$mAlbumId = $this->albumInsert($songAlbum, $mArtistId, $mGenreId, $mArtworkPath);
-		//$songTitle = preg_replace("/^[a-zA-Z0-9]+$/", "", $songTitle);
 		$this->songInsert($songTitle, $mArtistId, $mAlbumId, $mGenreId, $songDuration,
 									$songPath, $songTrackNum, 0);
 	}
 
-	public function getNextId($whichTable) {
-		$returnId = 0;
-		$query = mysqli_query($this->con, "SELECT max(id) FROM '$whichTable'");
-		if ($query) {
-			while ($row = mysqli_fetch_row($query)) {
-				$returnId = $row[0];
-			}
-		} else {
-			echo "get next id failed???   $whichTable";
-		}
-		return $returnId;
-	}
-
 	public function artistInsert($artist) {
-		$artistID = 0;
+		$artistID = NULL;
 		$artistExists = mysqli_query($this->con, "SELECT * FROM artists WHERE name='$artist'");
 		$row = mysqli_fetch_array($artistExists);
 		if (!empty($row)) {
@@ -107,14 +93,13 @@ class SyncSong {
 		}
 		else {
 			mysqli_query($this->con, "INSERT INTO artists VALUES(NULL, '$artist')");
-			$artistID = $this->getNextId('artists');
+			$artistID = mysqli_insert_id($this->con);
 		}
-
 		return $artistID;
 	}
 
 	public function genreInsert($genre) {
-		$genreID = 0;
+		$genreID = NULL;
 		$genreExists = mysqli_query($this->con, "SELECT * FROM genres WHERE name='$genre'");
 		$row = mysqli_fetch_array($genreExists);
 		if (!empty($row)) {
@@ -123,7 +108,7 @@ class SyncSong {
 		}
 		else {
 			mysqli_query($this->con, "INSERT INTO genres VALUES(NULL, '$genre')");
-			$genreID = $this->getNextId('genres');
+			$genreID = mysqli_insert_id($this->con);
 		}
 
 		return $genreID;
@@ -170,7 +155,7 @@ class SyncSong {
 	}
 
 	public function albumInsert($title, $artist, $genre, $artworkPath) {
-		$albumID = 0;
+		$albumID = NULL;
 		$albumExists = mysqli_query($this->con, "SELECT * FROM albums WHERE title='$title'");
 		$row = mysqli_fetch_array($albumExists);
 		if (!empty($row)) {
@@ -179,14 +164,14 @@ class SyncSong {
 		}
 		else {
 			mysqli_query($this->con, "INSERT INTO albums VALUES(NULL, '$title', '$artist', '$genre', '$artworkPath')");
-			$albumID = $this->getNextId('albums');
+			$albumID = mysqli_insert_id($this->con);
 		}
 
 		return $albumID;
 	}
 
 	public function songInsert($title, $artist, $album, $genre, $duration, $path, $albumOrder, $plays) {
-		$songID = 0;
+		$songID = NULL;
 		$stmt = $this->con->prepare("SELECT * FROM songs WHERE title=?");
 		$stmt->bind_param("s", $title);
 		$stmt->execute();
@@ -203,7 +188,7 @@ class SyncSong {
 			$stmt->bind_param("siiissii", $title, $artist, $album, $genre, $duration, $path, $albumOrder, $plays);
 			$stmt->execute();
 			$stmt->close();
-			$songID = $this->getNextId('songs');
+			$songID = mysqli_insert_id($this->con);
 		}
 		return $songID;
 	}
