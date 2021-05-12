@@ -377,8 +377,8 @@ body {
 }
 
 .button.green {
-	background-color: #2ebd59;
-	border-color: #2ebd59;
+	background-color: #922592;
+	border-color: #922592;
 }
 
 .borderBottom {
@@ -533,7 +533,7 @@ input:focus {
 
 
 
-/* modal stuff */
+/* ctrlp modal */
 .ctrlp-modal-normal {
 	display: none;
 	position: fixed;
@@ -546,7 +546,7 @@ input:focus {
 	color: #fff;
 	margin: auto;
 	padding: 10;
-	border: 10px solid #004d1a;
+	border: 6px solid #922592;
 	width: 33%;
 	margin-left: 33%;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
@@ -561,7 +561,7 @@ input:focus {
 }
 
 .activeL {
-	background-color: #003c00;
+	background-color: #804e75;
 }
 
 #ctrlpResultsList {

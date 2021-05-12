@@ -6,8 +6,6 @@ class SyncSong {
 		$this->con = $con;
 	}
 
-	// need to ignore readme.md     and what to do with non supported characters (japanese / chinese / etc.)
-	// need to create default.jpg
 	public function recurseDirs($path) {
 		$getID3 = new getID3;
 		$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
@@ -115,7 +113,6 @@ class SyncSong {
 	}
 
 	public function alubmArtSave($img, $mime, $songAlbum) {
-		//echo $mime;
 		if ($img != "None") {
 			$extension = ".jpg";
 			if ($mime == "image/jpeg" || $mime == "image/jpg" || $mime == "jpeg" || $mime == "jpg") {
@@ -138,19 +135,15 @@ class SyncSong {
 			$songAlbum = mb_ereg_replace("([\.]{2,})", '', $songAlbum);
 
 			$imgDirectoryPath = "../../../assets/images/artwork";
-			//$albumArtsAlready = scandir('images');
 			$albumArtsAlready = scandir($imgDirectoryPath);
 			$imgFilename = $songAlbum . $extension;
 			if (!in_array($imgFilename, $albumArtsAlready)) {
-				//$imgFile = fopen('images/' . $imgFilename, "wb");
 				$imgFile = fopen($imgDirectoryPath . '/' . $imgFilename, "wb");
 				fwrite($imgFile, $img);
 				fclose($imgFile);
 			}
-			//return 'images/' . $imgFilename;
 			return 'assets/images/artwork/' . $imgFilename;
 		}
-		//return 'images/default.jpg';
 		return 'assets/images/artwork/default.jpg';
 	}
 

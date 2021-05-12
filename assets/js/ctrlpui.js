@@ -6,7 +6,6 @@ onkeydown = function(e) {
   if(e.ctrlKey && e.key == 'p') { // show ctrlp modal
     e.preventDefault();
     modal = document.getElementById('ctrlpModal');
-    console.log(modal);
     modal.style.display = "block";
     var searchBox = document.getElementById('ctrlpInput');
     searchBox.value = "";  // clear out old values when doing new search
@@ -29,21 +28,17 @@ onkeydown = function(e) {
       }
     }
   } else if (e.key == 'ArrowUp' || e.key == 'Up') {
-    /* handle this later
-    var modal = document.getElementById('myModal');
+    // var modal = document.getElementById('ctrlpModal');
     if (modal.style.display == "block") {
       e.preventDefault();
-      //alert("ci");
-      //var toSelect = document.getElementById('myUL');
-      //toSelect.className = "activeL";
-      $("a").removeClass("activeL");
-      document.getElementById('myUL').getElementsByTagName("a")[numberDown].className = "activeL";
+      $("li").removeClass("activeL");
+      document.getElementById('ctrlpResultsList').getElementsByTagName("li")[numberDown].className = "activeL";
       numberDown = numberDown - 1;
-      var cool = $("#myUL li").length;
+      var cool = $("#ctrlpResultsList li").length;
       if (numberDown <= cool) {
         numberDown = 0;
       }
-    } */
+    }
   } else if (e.key == 'Enter') {
     if (modal.style.display == 'block') {
       // grab the name from the highlighted option!

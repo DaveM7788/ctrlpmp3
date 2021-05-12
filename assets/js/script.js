@@ -226,5 +226,3 @@ function Audio() {
 		this.audio.currentTime = seconds;
 	}
 }
-
-// ---------- Ctrl-P -----------
