@@ -26,6 +26,7 @@ else {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="assets/js/script.js"></script>
 	<script src="assets/js/fuzzy_match_data.js"></script>
+	<script src="assets/js/fuzzy_match_dataids.js"></script>
 	<script src="assets/js/fuzzy.js"></script>
 	<script src="assets/js/ctrlpui.js"></script>
 	<link rel="icon" href="assets/images/controlp_sq_jpg.jpg">

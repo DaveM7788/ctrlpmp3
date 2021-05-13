@@ -35,12 +35,12 @@ onkeydown = function(e) {
     }
   } else if (e.key == 'Enter') {
     if (modal.style.display == 'block') {
-      // grab the name from the highlighted option!
       var songToFind = $("li.activeL").text();
-      var x = dataSets.songs;
-      var findIt = x.indexOf(songToFind);
-      var sourcesArray = audioData.audiosources;
-      var found = sourcesArray[findIt];
+      console.log("song to find " + songToFind);
+      var idxOfSong = dataSets.songs.indexOf(songToFind);
+      console.log("song to find idx " + idxOfSong);
+      var songIdForDB = dataSetsIds.songids[idxOfSong];
+      console.log("database ID " + songIdForDB);
     }
   }
 }

@@ -11,7 +11,7 @@ class FuzzyData {
     public function writeFuzzyDataSource() {
 		if (count($this->songIDArray) > 0 and count($this->songTitleArray) > 0) {
 			$beginJSON = 'var dataSets = {"songs" : [';
-			$beginJSONIds = 'var dataSets = {"songids" : [';
+			$beginJSONIds = 'var dataSetsIds = {"songids" : [';
 			$endJSON = ']}';
 			$middleJSON = '';
 			$middleJSONIds = '';
