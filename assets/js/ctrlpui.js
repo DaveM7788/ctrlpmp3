@@ -1,5 +1,4 @@
-var numberDown = 0;
-//var modal = document.getElementById('myModal');
+var posHighlight = 0;
 var modal = null;
 
 onkeydown = function(e) {
@@ -10,33 +9,28 @@ onkeydown = function(e) {
     var searchBox = document.getElementById('ctrlpInput');
     searchBox.value = "";  // clear out old values when doing new search
     searchBox.focus();
-    numberDown = 0;
-    $("li").removeClass("activeL");
+    posHighlight = 0;
+    highlightResultCell(0);
   } else if (e.key == 'Escape' || e.key == 'Esc') {  // close modals
     modal.style.display = "none";
-    numberDown = 0;
+    posHighlight = 0;
   } else if (e.key == 'ArrowDown' || e.key == 'Down') {
     if (modal.style.display == "block") {
       e.preventDefault();
-      $("li").removeClass("activeL");
-      document.getElementById('ctrlpResultsList').getElementsByTagName("li")[numberDown].className = "activeL";
-      numberDown = numberDown + 1;
-      // if numberDown = list size ... go to 0
-      var cool = $("#ctrlpResultsList li").length;
-      if (numberDown >= cool) {
-        numberDown = 0;
+      console.log("pos " + posHighlight);
+      var lenCurrentResults = $("#ctrlpResultsList li").length;
+      if (posHighlight < (lenCurrentResults -1)) {
+        posHighlight++;
+        highlightResultCell(posHighlight);
       }
     }
   } else if (e.key == 'ArrowUp' || e.key == 'Up') {
-    // var modal = document.getElementById('ctrlpModal');
     if (modal.style.display == "block") {
       e.preventDefault();
-      $("li").removeClass("activeL");
-      document.getElementById('ctrlpResultsList').getElementsByTagName("li")[numberDown].className = "activeL";
-      numberDown = numberDown - 1;
-      var cool = $("#ctrlpResultsList li").length;
-      if (numberDown <= cool) {
-        numberDown = 0;
+      
+      if (posHighlight > 0) {
+        posHighlight--;
+        highlightResultCell(posHighlight);
       }
     }
   } else if (e.key == 'Enter') {
@@ -51,7 +45,13 @@ onkeydown = function(e) {
   }
 }
 
-// had script seperators right here between } and var patternField
+function highlightResultCell(indexHL) {
+  var safeLength = document.getElementById('ctrlpResultsList').getElementsByTagName("li");
+  if (safeLength != null && indexHL < safeLength.length) {
+    $("li").removeClass("activeL");
+    safeLength[indexHL].className = "activeL";
+  }
+}
 
 var patternField;
 var matchFn = fuzzy_match;
@@ -86,10 +86,12 @@ displayResults = function(results) {
     // Replace the old results from the DOM.
     resultsList.parentNode.replaceChild(newResultsList, resultsList);
     resultsList = newResultsList;
+
+    highlightResultCell(0);
 };
 
 onPatternChange = function() {
-    numberDown = 0; // allow for further arrow key selection
+    posHighlight = 0; // allow for further arrow key selection
     // Clear existing async match if it exists
     if (asyncMatcher !== null) {
         asyncMatcher.cancel();
