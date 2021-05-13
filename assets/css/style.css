@@ -566,4 +566,6 @@ input:focus {
 
 #ctrlpResultsList {
 	font-size: 120%;
+	list-style-type: none;
+	margin-left: -25px;
 }
