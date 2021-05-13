@@ -17,7 +17,6 @@ onkeydown = function(e) {
   } else if (e.key == 'ArrowDown' || e.key == 'Down') {
     if (modal.style.display == "block") {
       e.preventDefault();
-      console.log("pos " + posHighlight);
       var lenCurrentResults = $("#ctrlpResultsList li").length;
       if (posHighlight < (lenCurrentResults -1)) {
         posHighlight++;
@@ -27,21 +26,23 @@ onkeydown = function(e) {
   } else if (e.key == 'ArrowUp' || e.key == 'Up') {
     if (modal.style.display == "block") {
       e.preventDefault();
-      
       if (posHighlight > 0) {
         posHighlight--;
         highlightResultCell(posHighlight);
       }
     }
   } else if (e.key == 'Enter') {
-    if (modal.style.display == 'block') {
-      var songToFind = $("li.activeL").text();
-      console.log("song to find " + songToFind);
-      var idxOfSong = dataSets.songs.indexOf(songToFind);
-      console.log("song to find idx " + idxOfSong);
-      var songIdForDB = dataSetsIds.songids[idxOfSong];
-      console.log("database ID " + songIdForDB);
-    }
+    getIdFromJSON($("li.activeL").text());
+  }
+}
+
+function getIdFromJSON(songToFind) {
+  if (modal.style.display == 'block') {
+    console.log("song to find " + songToFind);
+    var idxOfSong = dataSets.songs.indexOf(songToFind);
+    console.log("song to find idx " + idxOfSong);
+    var songIdForDB = dataSetsIds.songids[idxOfSong];
+    console.log("database ID " + songIdForDB);
   }
 }
 
@@ -88,6 +89,10 @@ displayResults = function(results) {
     resultsList = newResultsList;
 
     highlightResultCell(0);
+    $("#ctrlpResultsList li").click(function() {
+      getIdFromJSON($(this).text());
+    });
+
 };
 
 onPatternChange = function() {

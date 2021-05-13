@@ -569,3 +569,8 @@ input:focus {
 	list-style-type: none;
 	margin-left: -25px;
 }
+
+#ctrlpResultsList li:hover{
+    background:#2c292b;
+	cursor: pointer;
+}
