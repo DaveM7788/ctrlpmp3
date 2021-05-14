@@ -18,7 +18,8 @@ $artist = $album->getArtist();
 	</div>
 	<div class="rightSection">
 		<h2><?php echo $album->getTitle(); ?></h2>
-		<p>By <?php echo $artist->getName(); ?></p>
+		<p class="pclickable" onclick="openPage('artist.php?id= <?php echo $artist->getId() ?>')">
+		By <?php echo $artist->getName(); ?></p>
 		<p><?php echo $album->getNumberOfSongs(); ?> Songs</p>
 	</div>
 </div>

@@ -574,3 +574,7 @@ input:focus {
     background:#2c292b;
 	cursor: pointer;
 }
+
+.pclickable:hover {
+	cursor: pointer;
+}
