@@ -41,13 +41,30 @@ function getIdFromJSON(songToFind) {
     var idxOfSong = dataSets.songs.indexOf(songToFind);
     var songIdForDB = dataSetsIds.songids[idxOfSong];
 
-    // set current song to this id
-    // the playlist should actually be all songs from that album?? or maybe just the next 10ids skip ahead if needed
-    
-
-    var ctrlpPlaylist = [songIdForDB]
+    var ctrlpPlaylist = genPlaylistFromOneId(songIdForDB, idxOfSong);
     setTrack(ctrlpPlaylist[0], ctrlpPlaylist, true);
   }
+}
+
+function genPlaylistFromOneId(oneSongId, idxOfSong) {
+  var returnPlaylist = [oneSongId];
+  if (dataSetsIds.songids.length < 10) {
+    for (i = 0; i < dataSetsIds.songids.length; i++) {
+      returnPlaylist.push(dataSetsIds.songids[i]);
+    }
+    return returnPlaylist;
+  }
+
+  for (j = 0; j < 10; j++) {
+    if (idxOfSong < (dataSetsIds.songids.length - 1)) {
+      idxOfSong++;
+    } else {
+      idxOfSong = 0;
+    }
+    returnPlaylist.push(dataSetsIds.songids[idxOfSong]);
+  }
+
+  return returnPlaylist;
 }
 
 function highlightResultCell(indexHL) {
