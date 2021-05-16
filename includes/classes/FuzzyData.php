@@ -45,4 +45,17 @@ class FuzzyData {
 
         $this->writeFuzzyDataSource();
     }
+
+	public function resetFuzzyData() {
+		$placeholder = 'var dataSets = {"songs" : ["sync music to db"]}';
+		$placeholderIds = 'var dataSetsIds = {"songids" : [0]}';
+
+		$file = fopen("../../../assets/js/fuzzy_match_data.js", "w");
+		fwrite($file, $placeholder);
+		fclose($file);
+
+		$fileIds = fopen("../../../assets/js/fuzzy_match_dataids.js", "w");
+		fwrite($fileIds, $placeholderIds);
+		fclose($fileIds);
+	}
 }
