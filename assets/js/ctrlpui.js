@@ -38,11 +38,15 @@ onkeydown = function(e) {
 
 function getIdFromJSON(songToFind) {
   if (modal.style.display == 'block') {
-    console.log("song to find " + songToFind);
     var idxOfSong = dataSets.songs.indexOf(songToFind);
-    console.log("song to find idx " + idxOfSong);
     var songIdForDB = dataSetsIds.songids[idxOfSong];
-    console.log("database ID " + songIdForDB);
+
+    // set current song to this id
+    // the playlist should actually be all songs from that album?? or maybe just the next 10ids skip ahead if needed
+    
+
+    var ctrlpPlaylist = [songIdForDB]
+    setTrack(ctrlpPlaylist[0], ctrlpPlaylist, true);
   }
 }
 
