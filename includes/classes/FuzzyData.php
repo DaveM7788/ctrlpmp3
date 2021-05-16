@@ -25,7 +25,7 @@ class FuzzyData {
 
 			$complete = $beginJSON . substr($middleJSON, 0, -1) . $endJSON;
 			$completeIds = $beginJSONIds . substr($middleJSONIds, 0, -1) . $endJSON;
-			echo "complete" . $complete;
+
 			$file = fopen("../../../assets/js/fuzzy_match_data.js", "w");
 			fwrite($file, $complete);
 			fclose($file);

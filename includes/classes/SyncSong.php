@@ -19,7 +19,7 @@ class SyncSong {
 
 		foreach ($files as $song) {
 			$ending = substr($song, -3);
-			if ($ending != ".md" or $ending != "txt") {
+			if (strcmp($ending, ".md") != 0) {
 				$ThisFileInfo = $getID3->analyze($song);
 				$getID3->CopyTagsToComments($ThisFileInfo);
 				$this->getAudioData($ThisFileInfo);
