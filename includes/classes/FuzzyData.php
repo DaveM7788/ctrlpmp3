@@ -47,7 +47,7 @@ class FuzzyData {
     }
 
 	public function resetFuzzyData() {
-		$placeholder = 'var dataSets = {"songs" : ["sync music to db"]}';
+		$placeholder = 'var dataSets = {"songs" : ["no music in db or stale cache (Ctrl-Shift-R) to refresh"]}';
 		$placeholderIds = 'var dataSetsIds = {"songids" : [0]}';
 
 		$file = fopen("../../../assets/js/fuzzy_match_data.js", "w");

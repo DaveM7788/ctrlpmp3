@@ -28,4 +28,9 @@ include("includes/includedFiles.php");
 	<div class="buttonItems">
 		<button class="button" onclick="deleteMusicDB()">Delete Music</button>
 	</div>
+
+	<div class="centerParaMore">
+		<p>It's recommended to hard refresh after syncing or deleting music to ensure fuzzy match works properly</p>
+		<p>Chrome and Firefox: Press Ctrl-Shift-R on Windows/Linux or Cmd-Shift-R on Mac</p>
+	</div>
 </div>

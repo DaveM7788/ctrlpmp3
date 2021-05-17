@@ -25,6 +25,13 @@ class SyncSong {
 				$this->getAudioData($ThisFileInfo);
 			}
 		}
+
+		$songCount = $this->getTotalSongCount();
+		if ($songCount != -1) {
+			echo "Sync Music Complete: " . $songCount . " songs in the DB";
+		} else {
+			echo "Possible error during sync operation";
+		}
 	}
 
 	public function getAudioData($f) {
@@ -125,7 +132,7 @@ class SyncSong {
 				$extension = ".bmp";
 			}
 			else {
-				echo "extension not found";
+				echo "album art image error: extension not found";
 			}
 
 			// Remove anything which isn't a word, whitespace, number
@@ -184,5 +191,15 @@ class SyncSong {
 			$songID = mysqli_insert_id($this->con);
 		}
 		return $songID;
+	}
+
+	public function getTotalSongCount() {
+		$genreExists = mysqli_query($this->con, "SELECT COUNT(1) FROM songs");
+		$row = mysqli_fetch_array($genreExists);
+		if (!empty($row)) {
+			// artist already exists in db, use the artist ID that has already been set
+			return $row[0];
+		}
+		return -1;
 	}
 }
