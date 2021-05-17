@@ -2,3 +2,9 @@
 *.ogg
 *.wav
 *.flac
+*.pdf
+*.mp4
+/assets/images/artwork/*.jpg
+/assets/images/artwork/*.jpeg
+/assets/images/artwork/*.png
+/assets/images/artwork/*.bmp

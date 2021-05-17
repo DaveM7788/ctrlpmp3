@@ -17,6 +17,7 @@ class FuzzyData {
 			$middleJSONIds = '';
 
 			foreach ($this->songTitleArray as $key=>$title) {
+				$title = str_replace('"', '\"', $title);
 				$builder = '"' . $title . '",';
 				$builderId = $this->songIDArray[$key] . ',';
 				$middleJSON .= $builder;
