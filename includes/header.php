@@ -35,7 +35,7 @@ else {
 
 	<div id="ctrlpModal" class="ctrlp-modal-normal">
 		<div class="ctrlp-modal-normal-content">
-			<input type="text" id="ctrlpInput" placeholder="Type to Fuzzy Search" class="ctrlp-modal-input">
+			<input type="text" id="ctrlpInput" placeholder="Type to Fuzzy Search" class="ctrlp-modal-input" autocomplete="off">
 			<ul id="ctrlpResultsList">
 		</div>
 	</div>

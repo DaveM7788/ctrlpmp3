@@ -33,6 +33,8 @@ onkeydown = function(e) {
     }
   } else if (e.key == 'Enter') {
     getIdFromJSON($("li.activeL").text());
+    modal.style.display = "none";
+    posHighlight = 0;
   }
 }
 
