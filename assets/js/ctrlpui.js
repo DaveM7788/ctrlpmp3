@@ -98,7 +98,7 @@ displayResults = function(results) {
 
     // Because adding too many elements is catastrophically slow because HTML is slow
     //var max_entries = 500;  // slim down max entries a bit - user shouldn't have that many songs
-    var max_entries = 20;
+    var max_entries = 15;
 
     // Create HTML elements for results
     for (index = 0; index < results.length && index < max_entries; ++index) {

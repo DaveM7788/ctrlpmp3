@@ -554,7 +554,10 @@ input:focus {
 
 .ctrlp-modal-input {
 	padding: 10;
-	margin: 10;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: 10;
+	margin-left: 10;
 	width: 99%;
 	font-size: 120%;
 	color: #000;
@@ -568,6 +571,10 @@ input:focus {
 	font-size: 120%;
 	list-style-type: none;
 	margin-left: -25px;
+}
+
+#ctrlpResultsList li {
+	padding: 5;
 }
 
 #ctrlpResultsList li:hover{
