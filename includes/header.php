@@ -6,8 +6,6 @@ include("includes/classes/Album.php");
 include("includes/classes/Song.php");
 include("includes/classes/Playlist.php");
 
-// session_destroy();  // will remove later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 if (isset($_SESSION['userLoggedIn'])) {
 	$userLoggedIn = new User($con, $_SESSION['userLoggedIn']);
 	$username = $userLoggedIn->getUsername();

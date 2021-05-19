@@ -32,19 +32,20 @@ onkeydown = function(e) {
       }
     }
   } else if (e.key == 'Enter') {
-    getIdFromJSON($("li.activeL").text());
-    modal.style.display = "none";
-    posHighlight = 0;
+    getIdAndPlay($("li.activeL").text());
   }
 }
 
-function getIdFromJSON(songToFind) {
+function getIdAndPlay(songToFind) {
   if (modal.style.display == 'block') {
     var idxOfSong = dataSets.songs.indexOf(songToFind);
     var songIdForDB = dataSetsIds.songids[idxOfSong];
 
     var ctrlpPlaylist = genPlaylistFromOneId(songIdForDB, idxOfSong);
     setTrack(ctrlpPlaylist[0], ctrlpPlaylist, true);
+
+    modal.style.display = "none";
+    posHighlight = 0;
   }
 }
 
@@ -113,7 +114,7 @@ displayResults = function(results) {
 
     highlightResultCell(0);
     $("#ctrlpResultsList li").click(function() {
-      getIdFromJSON($(this).text());
+      getIdAndPlay($(this).text());
     });
 
 };

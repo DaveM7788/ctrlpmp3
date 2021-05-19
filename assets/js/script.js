@@ -14,6 +14,11 @@ $(document).click(function(click) {
 	if (!target.hasClass("item") && !target.hasClass("optionsButton")) {
 		hideOptionsMenu();
 	}
+
+	var modal = document.getElementById('ctrlpModal');
+    if (modal.style.display == "block") {
+		modal.style.display = "none";
+	}
 });
 
 $(window).scroll(function() {
