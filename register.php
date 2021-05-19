@@ -50,6 +50,7 @@ function getInputValue($name) {
 					<h2>Login to your account</h2>
 					<p>
 						<?php echo $account->getError(Constants::$loginFailed) ?>
+						<?php echo $account->getError(Constants::$doNotHaveAcc) ?>
 						<label for="loginUsername">Username: </label>
 						<input id="loginUsername" type="text" name="loginUsername" placeholder="My Username" value="<?php getInputValue('loginUsername'); ?>" required="">
 					</p>

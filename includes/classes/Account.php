@@ -11,10 +11,15 @@ class Account {
 		$query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$un' LIMIT 1");
 		if (mysqli_num_rows($query) == 1) {
 			while ($row = mysqli_fetch_row($query)) {
-				if (password_verify($pw, $row[3])) {
-					return true;
+				if ($row[5] == 1) {
+					if (password_verify($pw, $row[3])) {
+						return true;
+					} else {
+						array_push($this->errorArray, Constants::$loginFailed);
+						return false;
+					}
 				} else {
-					array_push($this->errorArray, Constants::$loginFailed);
+					array_push($this->errorArray, Constants::$doNotHaveAcc);
 					return false;
 				}
 			}
@@ -48,7 +53,12 @@ class Account {
 	private function insertUserDetials($un, $em, $pw) {
 		$hashed = password_hash($pw, PASSWORD_BCRYPT);
 		$date = date("Y-m-d");
-		$result = mysqli_query($this->con, "INSERT INTO users VALUES (NULL, '$un', '$em', '$hashed', '$date')");
+		$stmt = $this->con->prepare("INSERT INTO users (username, email, password, date, hasaccess) VALUES (?, ?, ?, ?, ?)");
+		$defaultacc = 0;
+		$stmt->bind_param("ssssi", $un, $em, $hashed, $date, $defaultacc);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
 		return $result;
 	}
 

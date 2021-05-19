@@ -11,4 +11,6 @@ class Constants {
 	public static $emailTaken = "This email has already been taken";
 
 	public static $loginFailed = "Your username or password was incorrect";
+
+	public static $doNotHaveAcc = "You do not have access";
 }
