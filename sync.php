@@ -15,10 +15,11 @@ include("includes/includedFiles.php");
 
 	<div class="centerPara">
 		<p>Click the sync button to collect meta data and insert songs into the database</p>
+		<p>Note: The first sync may take a few minutes</p>
 	</div>
 
 	<div class="buttonItems">
-		<button class="button" onclick="syncMusic()">Sync Music</button>
+		<button class="button" id="syncMusicBtn" onclick="syncMusic()">Sync Music</button>
 	</div>
 
 	<div class="centerParaMore">

@@ -90,14 +90,20 @@ class SyncSong {
 
 	public function artistInsert($artist) {
 		$artistID = NULL;
-		$artistExists = mysqli_query($this->con, "SELECT * FROM artists WHERE name='$artist'");
-		$row = mysqli_fetch_array($artistExists);
-		if (!empty($row)) {
-			// artist already exists in db, use the artist ID that has already been set
-			$artistID = $row['id'];
-		}
-		else {
-			mysqli_query($this->con, "INSERT INTO artists VALUES(NULL, '$artist')");
+		$stmt = $this->con->prepare("SELECT id FROM artists WHERE name=?");
+		$stmt->bind_param("s", $artist);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if ($result and $result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			$artistID = $row['id'];  // artist already exists in db, use the ID that has already been set
+		} else {
+			$ins = $this->con->prepare("INSERT INTO artists (name) VALUES(?)");
+			$ins->bind_param("s", $artist);
+			$ins->execute();
+			$ins->get_result();
+			$ins->close();
 			$artistID = mysqli_insert_id($this->con);
 		}
 		return $artistID;
@@ -108,7 +114,7 @@ class SyncSong {
 		$genreExists = mysqli_query($this->con, "SELECT * FROM genres WHERE name='$genre'");
 		$row = mysqli_fetch_array($genreExists);
 		if (!empty($row)) {
-			// artist already exists in db, use the artist ID that has already been set
+			// genre already exists in db, use the ID that has already been set
 			$genreID = $row['id'];
 		}
 		else {
@@ -197,7 +203,6 @@ class SyncSong {
 		$genreExists = mysqli_query($this->con, "SELECT COUNT(1) FROM songs");
 		$row = mysqli_fetch_array($genreExists);
 		if (!empty($row)) {
-			// artist already exists in db, use the artist ID that has already been set
 			return $row[0];
 		}
 		return -1;

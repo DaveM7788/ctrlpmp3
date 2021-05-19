@@ -9,9 +9,16 @@ class Artist {
 	}
 
 	public function getName() {
-		$artistQuery = mysqli_query($this->con, "SELECT name FROM artists WHERE id='$this->id'");
-		$artist = mysqli_fetch_array($artistQuery);
-		return $artist['name'];
+		$stmt = $this->con->prepare("SELECT name FROM artists WHERE id=?");
+		$stmt->bind_param("s", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+		if ($result and $result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			return $row['name'];
+		}
 	}
 
 	public function getSongIds() {

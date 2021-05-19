@@ -125,8 +125,11 @@ function deletePlaylist(playlistId) {
 }
 
 function syncMusic() {
+	var changeBtnTxt = document.getElementById("syncMusicBtn");
+	changeBtnTxt.innerHTML = "Syncing..."
 	$.post("includes/handlers/ajax/syncMusic.php")
 	.done(function(error) {
+		changeBtnTxt.innerHTML = "Sync Music"
 		if (error != "") {
 			alert(error);
 			return;
@@ -135,13 +138,15 @@ function syncMusic() {
 }
 
 function deleteMusicDB() {
-	$.post("includes/handlers/ajax/deleteMusicDB.php")
-	.done(function(error) {
-		if (error != "") {
-			alert(error);
-			return;
-		}
-	});
+	if (confirm("Are you sure want to reset the database?")) {
+		$.post("includes/handlers/ajax/deleteMusicDB.php")
+		.done(function(error) {
+			if (error != "") {
+				alert(error);
+				return;
+			}
+		});
+	}
 }
 
 function hideOptionsMenu() {
