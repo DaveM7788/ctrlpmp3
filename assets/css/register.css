@@ -103,13 +103,9 @@ body, html {
 	text-align: center;
 }
 
-#registerForm,
-#loginForm {
-	display: none;
-}
-
 #loginText {
-	padding: 45px;
+	padding-top: 12px;
+	padding-left: 45px;
 	display: table-cell;
 }
 
