@@ -21,6 +21,7 @@ function getInputValue($name) {
 	<link rel="stylesheet" type="text/css" href="assets/css/register.css">
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 	<script src="assets/js/register.js"></script>
+	<link rel="icon" href="assets/images/controlp_sq_jpg.jpg">
 </head>
 <body>
 
