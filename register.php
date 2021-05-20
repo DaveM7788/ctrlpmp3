@@ -50,7 +50,7 @@ function getInputValue($name) {
 				<ul>
 					<li>Listen to music on your desktop or laptop</li>
 					<li>Upload your music to a server and listen anywhere</li>
-					<li>View other great projects at <a href="http://www.davesprojects.net">davesprojects.net</a></li>
+					<li>Get other great projects at <a href="http://www.davesprojects.net">davesprojects.net</a></li>
 				</ul>
 			</div>
 
