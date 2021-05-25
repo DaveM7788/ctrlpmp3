@@ -347,6 +347,14 @@ body {
 	visibility: visible;
 }
 
+.optionsButton:hover {
+	cursor: pointer;
+}
+
+.optionsButton {
+	padding: 10px;
+}
+
 .tracklistRow .trackDuration {
 	width: 12%;
 	float: left;
