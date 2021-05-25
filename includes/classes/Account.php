@@ -8,26 +8,23 @@ class Account {
 	}
 	
 	public function login($un, $pw) {
-		$query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$un' LIMIT 1");
-		if (mysqli_num_rows($query) == 1) {
-			while ($row = mysqli_fetch_row($query)) {
-				if ($row[5] == 1) {
-					if (password_verify($pw, $row[3])) {
-						return true;
-					} else {
-						array_push($this->errorArray, Constants::$loginFailed);
-						return false;
-					}
-				} else {
-					array_push($this->errorArray, Constants::$doNotHaveAcc);
-					return false;
-				}
+		$stmt = $this->con->prepare("SELECT * FROM users WHERE username=? LIMIT 1");
+		$stmt->bind_param("s", $un);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if ($result->num_rows > 0) {
+			$pwFromDB = $result->fetch_assoc();
+			if (password_verify($pw, $pwFromDB['password'])) {
+				return true;
+			} else {
+				array_push($this->errorArray, Constants::$loginFailed);
+				return false;
 			}
 		} else {
 			array_push($this->errorArray, Constants::$loginFailed);
 			return false;
 		}
-
 	}
 
 	public function getError($error) {
