@@ -104,7 +104,7 @@ function createPlaylist() {
 				alert(error);
 				return;
 			}
-			openPage("yourMusic.php");
+			openPage("allPlaylists.php");
 		});
 	}
 }
@@ -119,7 +119,7 @@ function deletePlaylist(playlistId) {
 				alert(error);
 				return;
 			}
-			openPage("yourMusic.php");
+			openPage("allPlaylists.php");
 		});
 	}
 }

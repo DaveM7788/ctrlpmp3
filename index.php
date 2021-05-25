@@ -2,4 +2,4 @@
 include("includes/includedFiles.php");
 ?>
 
-<script>openPage("browse.php")</script>
+<script>openPage("yourMusic.php")</script>

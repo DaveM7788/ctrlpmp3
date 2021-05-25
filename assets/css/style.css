@@ -585,3 +585,12 @@ input:focus {
 .pclickable:hover {
 	cursor: pointer;
 }
+
+#logoText {
+	text-align: center;
+	font-size: large;
+	padding-bottom: 8px;
+	padding-left: 6px;
+	color: #917092;
+	font-weight: bold;
+}
