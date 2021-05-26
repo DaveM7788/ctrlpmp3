@@ -16,11 +16,17 @@ if ($_POST['oldPassword'] == "" || $_POST['newPassword1'] == "" || $_POST['newPa
 	exit();
 }
 
-$username = $_POST['username'];
-$oldPassword = $_POST['oldPassword'];
-$oldPassword = strip_tags($oldPassword);
-$newPassword1 = $_POST['newPassword1'];
-$newPassword2 = $_POST['newPassword2'];
+function exorciseEvil($evil) {
+	$evil = trim($evil);
+	$evil = stripslashes($evil);
+	$good = htmlspecialchars($evil);
+	return $good; // good now
+}
+
+$username = exorciseEvil($_POST['username']);
+$oldPassword = exorciseEvil($_POST['oldPassword']);
+$newPassword1 = exorciseEvil($_POST['newPassword1']);
+$newPassword2 = exorciseEvil($_POST['newPassword2']);
 
 if ($newPassword1 != $newPassword2) {
 	echo "The new passwords do not match" . $newPassword1 . "    " . $newPassword2;
