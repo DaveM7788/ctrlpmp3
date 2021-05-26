@@ -31,6 +31,9 @@
             <div class="navItem">
                 <span role="link" tabindex="0" onclick="openPage('settings.php')" class="navItemLink">Settings for <?php echo $userLoggedIn->getUsername(); ?></span>
             </div>
+            <div class="navItem">
+                <span role="link" tabindex="0" onclick="logout()" class="navItemLink">Log Out</span>
+            </div>
         </div>
     </nav>
 </div>
