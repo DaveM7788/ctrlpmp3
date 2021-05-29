@@ -221,15 +221,15 @@ $jsonArray = json_encode($resultArray);
             <div class="content playerControls">
                 <div class="buttons">
                     <button class="controlButton shuffle" title="Shuffle Button" onclick="setShuffle()">
-                        <img src="assets/images/icons/shuffle.png" alt="Shuffle">
+                        <img src="assets/images/icons/shuff-purp.png" alt="Shuffle">
                     </button>
 
                     <button class="controlButton previous" title="Previous Button" onclick="prevSong()">
-                        <img src="assets/images/icons/previous.png" alt="Previous">
+                        <img src="assets/images/icons/prev-purp.png" alt="Previous">
                     </button>
 
                     <button class="controlButton play" title="Play Button" onclick="playSong()">
-                        <img src="assets/images/icons/play.png" alt="Play">
+                        <img src="assets/images/icons/play-purp.png" alt="Play">
                     </button>
 
                     <button class="controlButton pause" title="Pause Button" style="display: none;" onclick="pauseSong()">
@@ -237,11 +237,11 @@ $jsonArray = json_encode($resultArray);
                     </button>
 
                     <button class="controlButton next" title="Next Button" onclick="nextSong()">
-                        <img src="assets/images/icons/next.png" alt="Next">
+                        <img src="assets/images/icons/next-purp.png" alt="Next">
                     </button>
 
                     <button class="controlButton repeat" title="Repeat Button" onclick="setRepeat()">
-                        <img src="assets/images/icons/repeat.png" alt="Repeat">
+                        <img src="assets/images/icons/repeat-purp.png" alt="Repeat">
                     </button>
                 </div>
 
