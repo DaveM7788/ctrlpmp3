@@ -15,7 +15,7 @@ $owner = new User($con, $playlist->getOwner());
 <div class="entityInfo">
 	<div class="leftSection">
 		<div class="playlistImage">
-			<img src="assets/images/icons/playlist.png">
+			<img src="assets/images/icons/playlist-cust.png">
 		</div>
 	</div>
 	<div class="rightSection">
@@ -37,7 +37,7 @@ $owner = new User($con, $playlist->getOwner());
 
 			echo "<li class='tracklistRow'>
 				<div class='trackCount'>
-					<img class='play' src='assets/images/icons/play-white.png' onclick='setTrack(\"" . $playlistSong->getId() . "\", tempPlaylist, true)'>
+					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . $playlistSong->getId() . "\", tempPlaylist, true)'>
 					<span class='trackNumber'>$i</span>
 				</div>
 
@@ -48,7 +48,7 @@ $owner = new User($con, $playlist->getOwner());
 
 				<div class='trackOptions'>
 					<input type='hidden' class='songId' value='" . $playlistSong->getId() . "'>
-					<img class='optionsButton' src='assets/images/icons/more.png' onclick='showOptionsMenu(this)'>
+					<img class='optionsButton' src='assets/images/icons/more-purp.png' onclick='showOptionsMenu(this)'>
 				</div>
 
 				<div class='trackDuration'>

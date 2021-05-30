@@ -61,7 +61,7 @@ if ($term == "") {
 
 			echo "<li class='tracklistRow'>
 				<div class='trackCount'>
-					<img class='play' src='assets/images/icons/play-white.png' onclick='setTrack(\"" . $albumSong->getId() . "\", tempPlaylist, true)'>
+					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . $albumSong->getId() . "\", tempPlaylist, true)'>
 					<span class='trackNumber'>$i</span>
 				</div>
 
@@ -72,7 +72,7 @@ if ($term == "") {
 
 				<div class='trackOptions'>
 					<input type='hidden' class='songId' value='" . $albumSong->getId() . "'>
-					<img class='optionsButton' src='assets/images/icons/more.png' onclick='showOptionsMenu(this)'>
+					<img class='optionsButton' src='assets/images/icons/more-purp.png' onclick='showOptionsMenu(this)'>
 				</div>
 
 				<div class='trackDuration'>
