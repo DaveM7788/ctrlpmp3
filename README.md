@@ -4,7 +4,7 @@ Ctrl-P MP3 is a web based music player with fuzzy search similar to popular text
 
 Currently, you can fuzzy search by song title. Future versions should include fuzzy search by artist, album, and genre.
 
-Ctrl-P MP3 can be deployed locally on any standard LAMP stack environment or on a server. If you deploy on a server, please see the extra recommended security steps under the Server Deploy section below.
+Ctrl-P MP3 can be deployed on any standard LAMP stack environment. If you deploy on a server, please see the extra recommended security steps under the Server Deployment section below.
 
 # Local Deployment
 This video shows how you can deploy Ctrl-P MP3 through XAMPP (a popular LAMP environment) on your personal laptop or desktop.
