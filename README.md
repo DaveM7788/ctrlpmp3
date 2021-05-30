@@ -7,7 +7,7 @@ Currently, you can fuzzy search by song title. Future versions should include fu
 Ctrl-P MP3 can be deployed on any standard LAMP stack environment. If you deploy on a server, please see the extra recommended security steps under the Server Deployment section below.
 
 # Local Deployment
-This video shows how you can deploy Ctrl-P MP3 through XAMPP (a popular LAMP environment) on your personal laptop or desktop.
+This video shows how you can deploy Ctrl-P MP3 through XAMPP on your personal laptop or desktop.
 
 Link goes here
 
