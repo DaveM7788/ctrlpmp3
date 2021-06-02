@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2021 at 12:54 AM
+-- Generation Time: Jun 02, 2021 at 02:24 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `ctrlpmp3`
 --
+CREATE DATABASE ctrlpmp3;
+USE ctrlpmp3;
 
 -- --------------------------------------------------------
 
@@ -110,18 +112,16 @@ CREATE TABLE `songs` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `date` date NOT NULL,
-  `hasaccess` tinyint(1) NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `date`, `hasaccess`) VALUES
-(5, 'ctrlpuser', 'random@gmail.com', '$2y$10$u4QN2zuhE30TuyDkRxI0Eez7NxQjiP69LIKVSvRmiP4nncmaMafAC', '2021-05-19', 1);
+INSERT INTO `users` (`id`, `username`, `password`, `date`) VALUES
+(5, 'ctrlpuser', '$2y$10$qNG5L.EERoQpFhNtvRFLveZK14t7j5078Pxborrs2v39Xl8/rZ2/a', '2021-05-19');
 
 --
 -- Indexes for dumped tables
