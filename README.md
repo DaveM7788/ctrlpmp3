@@ -13,16 +13,16 @@ Steps:
 3. Extract the files into your htdocs folder. On Windows and XAMPP, it would be C:/xampp/htdocs assuming you have a standard installation
 4. Ensure Apache and MySQL are running. On XAMPP, you can start them with the XAMPP Control Panel
 5. Open the following in your web browser http://localhost/phpmyadmin/
-6. Click on the SQL button and run the SQL from ctrlpmp3/maria/setup_db.sql
+6. Click on the SQL button and run the SQL from ctrlpmp3/maria/setup_db.sql. Quick link: https://github.com/DaveM7788/ctrlpmp3/blob/main/maria/setup_db.sql. The easiest way is to copy and paste everything from the aforementioned file into phpMyAdmin and clicking Go
 7. Now open http://localhost/ctrlpmp3 in your browser
 8. Login with username: ctrlpuser and password: BestSongIsRenegade
-9. (Optional) Go to Settings for ctrlpuser and change the default password. Quick link: http://localhost/ctrlpmp3/updateDetails.php?
-10. In your file manager, place all of your music files into ctrlpmp3/0_Upload_Music_Here
-11. In ctrlpmp3, go to Sync Music and click the Sync Music. Quick link: http://localhost/ctrlpmp3/sync.php?. It's recommended to hard refresh your browser for Ctrl-P to work
+9. (Optional) Go to Settings for ctrlpuser and change the default password. Quick link: http://localhost/ctrlpmp3/updateDetails.php
+10. In your file manager, place all of your music files into ctrlpmp3/0_Upload_Music_Here. Note the ctrlpmp3 folder lives inside C:/xampp/htdocs or the analog for your specific installation
+11. In ctrlpmp3, go to Sync Music and click the Sync Music. Quick link: http://localhost/ctrlpmp3/sync.php. It's recommended to hard refresh your browser for fuzzy match to work
 12. Enjoy listening to your music!
 
 # Server Deployment
-This video shows how you can deploy Ctrl-P MP3 on an Ubuntu server VPS in less than 5 minutes. It also includes the extra recommended security steps described above.
+This video shows how you can deploy Ctrl-P MP3 on an Ubuntu server VPS.
 
 Link goes here
 
