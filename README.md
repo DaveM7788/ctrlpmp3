@@ -22,14 +22,7 @@ Steps:
 12. Enjoy listening to your music!
 
 # Server Deployment
-This video shows how you can deploy Ctrl-P MP3 on an Ubuntu server VPS.
-
-Link goes here
-
-In summary:
-1. DO this
-2. Do that
-3. Blah
+Coming Soon
 
 # References
 This project makes use of the excellent fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/.
