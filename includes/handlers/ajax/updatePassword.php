@@ -40,8 +40,8 @@ if (strlen($newPassword1) > 40 || strlen($newPassword1) < 6) {
 
 $query = mysqli_query($con, "SELECT * FROM users WHERE username='$username' LIMIT 1");
 if (mysqli_num_rows($query) == 1) {
-	while ($row = mysqli_fetch_row($query)) {
-		if (!password_verify($oldPassword, $row[3])) {
+	while ($row = mysqli_fetch_array($query)) {
+		if (!password_verify($oldPassword, $row['password'])) {
 			echo "Password is incorrect";
 			exit();
 		}
