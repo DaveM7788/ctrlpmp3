@@ -21,7 +21,7 @@ Steps:
 12. Enjoy listening to your music!
 
 # Server Deployment
-You can install Ctrl-P MP3 through most cloud providers or shared hosts. Below is a procedure for installing Ctrl-P MP3 on Ubuntu Server 20.04 on Digital Ocean.
+You can install Ctrl-P MP3 through most cloud providers or shared hosts. Below is a procedure for installing Ctrl-P MP3 on Ubuntu Server 20.04 on Digital Ocean. Forewarning, it can be a lengthy process
 
 Steps:
 1. Create or login into your Digital Ocean account
@@ -112,12 +112,16 @@ $ nano php.ini
 max_execution_time = 3000
 max_input_time = 6000
 ```
-23. By default, audio album artwork will fail to write unless you adjust permissions of the artwork directory. www-data is the user for the apache2 web server
+```
+$ service apache2 restart
+```
+23. To save album artwork and fuzzy match data we must adjust permissions of the relevant directories. www-data is the user for the apache2 web server
 ```
 $ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/images/artwork
+$ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/js
 ```
-22. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
-23. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
+24. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
+25. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
 
 # Security for Server Deployment
 1. Disable directory browsing on apache2. After doing this, you will no longer be able to see all your music files by typing 11.111.11.11/ctrlpmp3/0_Upload_Music_Here
