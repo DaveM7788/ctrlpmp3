@@ -50,7 +50,7 @@ mysql > exit
 ```
 9. Now we must install php with following commands
 ```
-$ apt install php libapache2-mod-php php-mysql
+$ apt install php libapache2-mod-php php-mysql php-mbstring
 ```
 10. Change directories and clone the ctrlpmp3 repo as follows
 ```
@@ -87,12 +87,45 @@ sftp > cd /var/www/html/ctrlpmp3/0_Upload_Music_Here
 sftp > lcd Music
 sftp > put -r .
 ```
-19. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
-20. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
-21. Disable directory browsing on apache2 by the following
+19. (Optional) rsync can be used instead of sftp and should be much faster for future uploads. rsync comes standard with most nix systems, but on Windows you will need to install Windows Subsystem for Linux or find some other method. In this example your terminal working directory is one level up from Music
+```
+$ rsync -azvh Music/ root@11.111.11.11:/var/www/html/ctrlpmp3/0_Upload_Music_Here
+```
+20. Adjust timeout for apache2 on your server for large music uploads. It is likely that you will have to do this. Find the line where it says Timeout and change it to a high number, 2300 for example
+```
+$ ssh root@11.111.11.11 
+$ nano /etc/apache2/apache2.conf
+```
+```
+Timeout 2300
+```
+```
+$ service apache2 restart
+```
+21. You also need adjust the settings for php for large music uploads. Replace 7.4 with whatever php version you have
+```
+$ cd /etc/php/7.4/apache2
+$ nano php.ini
+```
+22. Find the lines where it says max_execution_time and max_input_time and change both of them to a higher number
+```
+max_execution_time = 3000
+max_input_time = 6000
+```
+23. By default, audio album artwork will fail to write unless you adjust permissions of the artwork directory. www-data is the user for the apache2 web server
+```
+$ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/images/artwork
+```
+22. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
+23. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
+
+# Security for Server Deployment
+1. Disable directory browsing on apache2. After doing this, you will no longer be able to see all your music files by typing 11.111.11.11/ctrlpmp3/0_Upload_Music_Here
 $ ssh root@11.111.11.11
 $ {disable directory browsing}
-22. Configure apache2 to block all requests that are not from a pre-approved list of IP addresses. To find your IP address on your current computer just Google "What is my IP address"
+2. Configure apache2 to block all requests that are not from a pre-approved list of IP addresses. To find your IP address on your current computer just Google "What is my IP address"
+3. Switch default port of SSH from 22 to a random high number. This is security by obscurity, but probably more effective than most would initially guess. Running nmap or alternative scanners on your server won't be able to pick up which port your SSH is listening on even with a full scan
+4. Enable HTTPS using Let's Encrypt 
 
 # References
 This project makes use of the excellent fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/
