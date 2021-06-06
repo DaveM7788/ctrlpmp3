@@ -4,6 +4,16 @@
 *.flac
 *.pdf
 *.mp4
+*.aac
+*.wma
+*.m4a
+*.m4p
+*.aiff
+*.alac
+*.oga
+*.mogg
+*.opus
+*.webm
 /assets/images/artwork/*.jpg
 /assets/images/artwork/*.jpeg
 /assets/images/artwork/*.png

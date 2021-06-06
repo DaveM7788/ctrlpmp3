@@ -82,13 +82,13 @@ mysql > exit
 $ sftp root@11.111.11.11
 sftp > cd /var/www/html/ctrlpmp3/0_Upload_Music_Here
 ```
-18. In the line below Music is your local Music folder that you want to transfer your server. We transfer everything inside of Music into the server directory /var/www/html/ctrlpmp3/0_Upload_Music_Here
+18. In the line below, Music is a local folder that contains music that you want to be copied to your server side Ctrl-P MP3 instance. We transfer everything inside of Music into the server directory /var/www/html/ctrlpmp3/0_Upload_Music_Here
 ```
 sftp > lcd Music
 sftp > put -r .
 ```
-19. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3
-20. At this point everything should be working - listening to music, log in, etc. Below are further security settings that are recommended
+19. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
+20. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
 21. Disable directory browsing on apache2 by the following
 $ ssh root@11.111.11.11
 $ {disable directory browsing}
