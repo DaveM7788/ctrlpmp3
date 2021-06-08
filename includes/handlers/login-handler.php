@@ -11,7 +11,7 @@ if (isset($_POST['loginButton'])) {
 	$password = exorciseEvil($_POST['loginPassword']);
 
 	// naive throttle (this app is designed to be used by one or a few users)
-	sleep(.3);
+	usleep(300000);
 
 	$result = $account->login($username, $password);
 	if ($result) {

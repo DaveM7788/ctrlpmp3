@@ -130,7 +130,7 @@ $ ssh root@11.111.11.11
 $ cd /etc/apache2
 $ nano apache2.conf
 ```
-Find the lines that say (around line 160). And remove "Indexes"
+Find the lines as shown below (around line 160). And remove "Indexes"
 ```
 <Directory /var/www/>
         Options Indexes FollowSymLinks
@@ -138,7 +138,7 @@ Find the lines that say (around line 160). And remove "Indexes"
         Require all granted
 </Directory>
 ```
-such that you now have
+so you now have
 ```
 <Directory /var/www/>
         Options FollowSymLinks
@@ -161,8 +161,6 @@ $ nano security.conf
 ```
 ```
 ServerTokens Prod
-```
-```
 ServerSignature Off
 ```
 ```
@@ -171,7 +169,7 @@ $ service apache2 restart
 4. Create an account that can use sudo and then disable ssh login for root. After doing this
 
 
-4. Enable HTTPS by following the guide linked below
+5. Enable HTTPS by following the guide linked below
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
 
 # References
