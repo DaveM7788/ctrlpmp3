@@ -125,11 +125,54 @@ $ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/js
 
 # Security for Server Deployment
 1. Disable directory browsing on apache2. After doing this, you will no longer be able to see all your music files by typing 11.111.11.11/ctrlpmp3/0_Upload_Music_Here
+```
 $ ssh root@11.111.11.11
-$ {disable directory browsing}
-2. Configure apache2 to block all requests that are not from a pre-approved list of IP addresses. To find your IP address on your current computer just Google "What is my IP address"
-3. Switch default port of SSH from 22 to a random high number. This is security by obscurity, but probably more effective than most would initially guess. Running nmap or alternative scanners on your server won't be able to pick up which port your SSH is listening on even with a full scan
-4. Enable HTTPS using Let's Encrypt 
+$ cd /etc/apache2
+$ nano apache2.conf
+```
+Find the lines that say (around line 160). And remove "Indexes"
+```
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+```
+such that you now have
+```
+<Directory /var/www/>
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+```
+```
+$ service apache2 restart
+```
+2. Remove index.html from apache2. This file is not needed and will make it harder for others to determine what software your server is running
+```
+$ cd /var/www/html
+$ rm index.html
+```
+3. Turn off server signatures for apache2. This is in line with point 2 and will make it harder to determine what software your server is running. Find ServerTokens and set it as Prod. Find ServerSignature and set it as Off
+```
+$ cd /etc/apache2/conf-enabled
+$ nano security.conf
+```
+```
+ServerTokens Prod
+```
+```
+ServerSignature Off
+```
+```
+$ service apache2 restart
+```
+4. Create an account that can use sudo and then disable ssh login for root. After doing this
+
+
+4. Enable HTTPS by following the guide linked below
+https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
 
 # References
 This project makes use of the excellent fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/
