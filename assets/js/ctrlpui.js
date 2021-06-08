@@ -2,7 +2,7 @@ var posHighlight = 0;
 var modal = null;
 
 onkeydown = function(e) {
-  if(e.ctrlKey && e.key == 'p') { // show ctrlp modal
+  if((e.ctrlKey && e.key == 'p') || (e.metaKey && e.key == 'p')) { // show ctrlp modal
     e.preventDefault();
     modal = document.getElementById('ctrlpModal');
     modal.style.display = "block";
