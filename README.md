@@ -166,14 +166,27 @@ ServerSignature Off
 ```
 $ service apache2 restart
 ```
-4. Create an account that can use sudo and then disable ssh login for root. After doing this
-
-
-5. Enable HTTPS by following the guide linked below
+4. Create a new user account that can use sudo instead of using the root account
+```
+$ adduser yourusername
+$ usermod -aG sudo yourusername
+```
+After verifying you can ssh in using your new account, you can disable ssh logins for the root account. Ensure you are changing the sshd_config and not the ssh_config
+```
+$ sudo nano /etc/ssh/sshd_config
+```
+Disable root ssh login by changing the line as shown below and then restart ssh
+```
+PermitRootLogin no
+```
+```
+$ sudo service ssh restart
+```
+5. Enable HTTPS by following the guide linked below. This is of particular importance if you plan to access your server instance from public Wi-Fi
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
 
 # References
-This project makes use of the excellent fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/
+This project makes use of the fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/
 
 This project uses the PHP library getID3 by James Heinrich. See the readme and source for getID3 by clicking on it above
 
