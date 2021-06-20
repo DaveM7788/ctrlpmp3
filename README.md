@@ -182,7 +182,29 @@ PermitRootLogin no
 ```
 $ sudo service ssh restart
 ```
-5. Enable HTTPS by following the guide linked below. This is of particular importance if you plan to access your server instance from public Wi-Fi
+5. Configure Apache to only allow traffic from your IP address(es). You can find your IP address here https://whatismyipaddress.com/
+```
+$ sudo nano /etc/apache2/apache2.conf
+```
+Find the line as shown below
+```
+<Directory /var/www/>
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+```
+Change it to require your IP address. You can allow from more than one IP address as shown below
+```
+<Directory /var/www/>
+        Require ip 11.111.11.11
+        Require ip 12.111.11.11
+</Directory>
+```
+```
+$ sudo service apache2 restart
+```
+6. Enable HTTPS by following the guide linked below. This is of particular importance if you plan to access your server instance from public Wi-Fi
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
 
 # References
