@@ -20,53 +20,66 @@ Steps:
 11. In ctrlpmp3, go to Sync Music and click the Sync Music. Quick link: http://localhost/ctrlpmp3/sync.php. It's recommended to hard refresh your browser for fuzzy match to work
 12. Enjoy listening to your music!
 
+
 # Server Deployment
-You can install Ctrl-P MP3 through most cloud providers or shared hosts. Below is a procedure for installing Ctrl-P MP3 on Ubuntu Server 20.04 on Digital Ocean. Forewarning, it can be a lengthy process
+
+You can install Ctrl-P MP3 through most cloud providers or shared hosts. Below is a procedure for installing Ctrl-P MP3 on Debian on AWS. Forewarning, it can be a lengthy process
 
 Steps:
-1. Create or login into your Digital Ocean account
-2. Select the green Create button on top and select droplet
-3. Where it says choose an image, select Ubuntu 20.04 or the latest Ubuntu LTS
-4. Choose a plan as needed. The basic 1 CPU, 25GB Disk, and 1000GB Transfer option should be enough
-5. Choose the data center, ssh keys, passwords, and/or assigned project per your personal preference and then create the droplet
-6. SSH into your droplet and use the following commands
+1. Create or login into your AWS Lightsail account and create a BareOS Debian instance
+2. Click the terminal icon of your instance to open the CLI or alternatively download your SSH private key and login with your SSH client of choice. If you download your private key, you need to use the -i flag
+with ssh. Optionally, you can also add your key to your ssh config to no longer need the -i everytime you use ssh. To do that
+
 ```
-$ ssh root@11.111.11.11
-$ apt update
-$ apt install apache2
-$ ufw allow in "Apache Full"
+$ cd /etc/ssh
+$ sudo nano ssh_config
 ```
-7. Check that Apache exists by typing your server IP address into your web browser. Next, install mysql as follows
+Add add the following entry like so
 ```
-$ apt install mysql-server
-$ mysql_secure_installation
+Host your_server_ip
+        IdentityFile /path/yourprivekey.pem
 ```
-8. Follow the prompts for mysql secure installation. Next login into mysql and alter the root user password. The 'password' on the 2nd line below is just a placeholder
+After doing this, the -i flag will no longer be needed for ssh or sftp. The next step is to install a firewall and Apache2
 ```
-$ mysql
-mysql > ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-mysql > FLUSH PRIVILEGES;
-mysql > exit
+$ ssh -i yourprivatekey.pem admin@11.111.11.11
+$ sudo apt update
+$ sudo apt install apache2
+$ sudo apt install ufw
+$ sudo ufw default deny incoming
+$ sudo ufw default allow outgoing
+$ sudo ufw allow ssh
+$ sudo ufw allow http
+$ sudo ufw allow https
+$ sudo ufw enable
 ```
-9. Now we must install php with following commands
+3. Check that Apache exists by typing your server IP address into your web browser. Next, install MariaDB as follows
 ```
-$ apt install php libapache2-mod-php php-mysql php-mbstring
+$ sudo apt install mariadb-server
 ```
-10. Change directories and clone the ctrlpmp3 repo as follows
+4. Run the command below and follow the prompts for a secure installation. It's recommended to change your db password when prompted to do so
+```
+$ sudo mysql_secure_installation
+```
+5. Now we must install php with following commands. The latest version of PHP tested is 8.2 but any version above 7.0 should work
+```
+$ sudo apt install php libapache2-mod-php php-mysql php-mbstring
+```
+6. Change directories and clone the ctrlpmp3 repo as follows
 ```
 $ cd /var/www/html
-$ git clone https://github.com/DaveM7788/ctrlpmp3
+$ sudo apt install git
+$ sudo git clone https://github.com/DaveM7788/ctrlpmp3
 ```
-11. Change the blank password in config.php to whatever you used for your actual mysql password
+7. Change the blank password in config.php to whatever you used for your actual mysql password
 ```
 $ cd /ctrlpmp3/includes
 $ nano config.php
 ```
-12. This will open config.php in a terminal based text editor. Use the arrow keys to navigate to the line shown below. Replace the blank "" with your password. Ctrl-O to save file and then Ctrl-X to quit
+8. This will open config.php in a terminal based text editor. Use the arrow keys to navigate to the line shown below. Replace the blank "" with your password. Ctrl-O to save file and then Ctrl-X to quit
 ```php
 $con = mysqli_connect("localhost", "root", "passwordgoeshere", "ctrlpmp3");
 ```
-13. Now change directory to /var/www/html/ctrlpmp3/maria and set up the database as follows
+9. Now change directory to /var/www/html/ctrlpmp3/maria and set up the database as follows
 ```
 $ cd /var/www/html/ctrlpmp3/maria
 $ mysql -u root -p < setup_db.sql
@@ -74,59 +87,68 @@ $ mysql -u root -p
 mysql > use ctrlpmp3;
 mysql > exit
 ```
-14. Now in your browser go to 11.111.11.11/ctrlpmp3 with your browser, replacing 11.111.11.11 with your droplet's IP address. You should see the ctrlpmp3 entry page
-15. Login with username: ctrlpuser and password: BestSongIsRenegade
-16. (Not Optional This Time) Go to Settings for ctrlpuser and change the default password
-17. You can use sftp to upload music to your server as follows. Ensure you are no longer in SSH
+10. Now in your browser go to 11.111.11.11/ctrlpmp3 with your browser, replacing 11.111.11.11 with your server's IP address. You should see the ctrlpmp3 entry page
+11. Login with username: ctrlpuser and password: BestSongIsRenegade
+12. (Not Optional This Time) Go to Settings for ctrlpuser and change the default password.
+13. At this point we have verified Apache2 and MariaDB are installed correctly and you can at least login to the ctrlpmp3 server. Next we need to actually upload music. However, we need to make
+same configuration changes before we can do that. First, adjust timeout for apache2 on your server for large music uploads. It is likely that you will have to do this. Find the line where it says 
+Timeout and change it to a high number, 2300 for example
 ```
-$ sftp root@11.111.11.11
-sftp > cd /var/www/html/ctrlpmp3/0_Upload_Music_Here
-```
-18. In the line below, Music is a local folder that contains music that you want to be copied to your server side Ctrl-P MP3 instance. We transfer everything inside of Music into the server directory /var/www/html/ctrlpmp3/0_Upload_Music_Here
-```
-sftp > lcd Music
-sftp > put -r .
-```
-19. (Optional) rsync can be used instead of sftp and should be much faster for future uploads. rsync comes standard with most nix systems, but on Windows you will need to install Windows Subsystem for Linux or find some other method. In this example your terminal working directory is one level up from Music
-```
-$ rsync -azvh Music/ root@11.111.11.11:/var/www/html/ctrlpmp3/0_Upload_Music_Here
-```
-20. Adjust timeout for apache2 on your server for large music uploads. It is likely that you will have to do this. Find the line where it says Timeout and change it to a high number, 2300 for example
-```
-$ ssh root@11.111.11.11 
+$ ssh -i yourprivatekey.pem admin@11.111.11.11 
 $ nano /etc/apache2/apache2.conf
 ```
 ```
 Timeout 2300
 ```
 ```
-$ service apache2 restart
+$ sudo systemctl restart apache2
 ```
-21. You also need adjust the settings for php for large music uploads. Replace 7.4 with whatever php version you have
+14. You also need adjust the settings for php for large music uploads. Replace 8.2 with whatever php version you have
 ```
 $ cd /etc/php/7.4/apache2
 $ nano php.ini
 ```
-22. Find the lines where it says max_execution_time and max_input_time and change both of them to a higher number
+15. Find the lines where it says max_execution_time and max_input_time and change both of them to a higher number
 ```
 max_execution_time = 3000
 max_input_time = 6000
 ```
 ```
-$ service apache2 restart
+$ sudo systemctl restart apache2
 ```
-23. To save album artwork and fuzzy match data we must adjust permissions of the relevant directories. www-data is the user for the apache2 web server
+16. To save album artwork and fuzzy match data we must adjust permissions of the relevant directories. www-data is the user for the apache2 web server
 ```
-$ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/images/artwork
-$ chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/js
+$ sudo chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/images/artwork
+$ sudo chown -R www-data:www-data /var/www/html/ctrlpmp3/assets/js
 ```
-24. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
-25. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
+17. Finally, we need to allow permissions to upload to the music folder for the admin user. (Assuming you are on Debian and AWS)
+```
+$  sudo chown -R $USER:$USER /var/www/html/ctrlpmp3/0_Upload_Music_Here
+```
+18. You can use sftp or rsync to upload music to your server as follows. For rsync skip ahead to step 20.
+```
+$ sftp -i yourprivatekey.pem admin@11.111.11.11
+sftp > cd /var/www/html/ctrlpmp3/0_Upload_Music_Here
+```
+19. In the line below, Music is a local folder that contains music that you want to be copied to your server side Ctrl-P MP3 instance. We transfer everything inside of Music into the server directory /var/www/html/ctrlpmp3/0_Upload_Music_Here
+```
+sftp > lcd Music
+sftp > put -r .
+```
+20. (Optional) rsync can be used instead of sftp and should be much faster for future uploads. rsync comes standard with most nix systems, but on Windows you will need to install Windows Subsystem for Linux or find some other method. In this example your terminal working directory is one level up from Music
+```
+$ sudo rsync -azvh Music/ admin@11.111.11.11:/var/www/html/ctrlpmp3/0_Upload_Music_Here
+```
+
+21. You can now Sync your music in your server's Ctrl-P MP3 instance by going to Sync Music like you normally would for a local instance of Ctrl-P MP3. Remember to Ctrl-Shift-R to hard refresh after syncing music
+22. At this point everything should be working - listening to music, log in, fuzzy match etc. Below are further security settings that are recommended
+
 
 # Security for Server Deployment
+
 1. Disable directory browsing on apache2. After doing this, you will no longer be able to see all your music files by typing 11.111.11.11/ctrlpmp3/0_Upload_Music_Here
 ```
-$ ssh root@11.111.11.11
+$ ssh admin@11.111.11.11
 $ cd /etc/apache2
 $ nano apache2.conf
 ```
@@ -147,7 +169,7 @@ so you now have
 </Directory>
 ```
 ```
-$ service apache2 restart
+$ sudo systemctl restart apache2
 ```
 2. Remove index.html from apache2. This file is not needed and will make it harder for others to determine what software your server is running
 ```
@@ -164,7 +186,7 @@ ServerTokens Prod
 ServerSignature Off
 ```
 ```
-$ service apache2 restart
+$ sudo systemctl restart apache2
 ```
 4. Create a new user account that can use sudo instead of using the root account
 ```
@@ -202,7 +224,7 @@ Change it to require your IP address. You can allow from more than one IP addres
 </Directory>
 ```
 ```
-$ sudo service apache2 restart
+$ sudo systemctl restart apache2
 ```
 6. Enable HTTPS by following the guide linked below. This is of particular importance if you plan to access your server instance from public Wi-Fi
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
