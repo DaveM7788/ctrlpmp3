@@ -1,6 +1,6 @@
 <?php
 class FuzzyData {
-
+	private $con;
     private $songIDArray = array();
 	private $songTitleArray = array();
 
