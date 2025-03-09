@@ -18,8 +18,7 @@ class SyncSong {
 		}
 
 		foreach ($files as $song) {
-			$ending = substr($song, -3);
-			if (strcmp($ending, ".md") != 0) {
+			if ($this->isAudioFile($song)) {
 				$ThisFileInfo = $getID3->analyze($song);
 				$getID3->CopyTagsToComments($ThisFileInfo);
 				$this->getAudioData($ThisFileInfo);
@@ -34,9 +33,22 @@ class SyncSong {
 		}
 	}
 
+	public function isAudioFile($song) {
+		$ending = substr($song, -4);
+		if ($ending === ".mp3" || $ending === ".ogg" || $ending === ".wav" || $ending === ".aac") {
+			return true;
+		}
+		$ending = substr($song, -5);
+		if ($ending === ".flac" || $ending === ".aiff" ) {
+			return true;
+		}
+		return false;
+	}
+
 	public function getAudioData($f) {
 		$songDuration = "0";
 		$songTitle = "None";
+		//$songTitle = $f['filenamepath'];
 		$songAlbum = "None";
 		$songArtist = "None";
 		$songGenre = "None";
@@ -109,16 +121,24 @@ class SyncSong {
 		return $artistID;
 	}
 
-	public function genreInsert($genre) {
+	public function genreInsert($genre) {		
 		$genreID = NULL;
-		$genreExists = mysqli_query($this->con, "SELECT * FROM genres WHERE name='$genre'");
-		$row = mysqli_fetch_array($genreExists);
-		if (!empty($row)) {
+		$genreExistsStmt = $this->con->prepare("SELECT * FROM genres WHERE name=?");
+		$genreExistsStmt->bind_param("s", $genre);
+		$genreExistsStmt->execute();
+		$result = $genreExistsStmt->get_result();
+		$genreExistsStmt->close();
+		if ($result and $result->num_rows > 0) {
 			// genre already exists in db, use the ID that has already been set
+			$row = $result->fetch_assoc();
 			$genreID = $row['id'];
 		}
 		else {
-			mysqli_query($this->con, "INSERT INTO genres VALUES(NULL, '$genre')");
+			$ins = $this->con->prepare("INSERT INTO genres (name) VALUES(?)");
+			$ins->bind_param("s", $genre);
+			$ins->execute();
+			$ins->get_result();
+			$ins->close();
 			$genreID = mysqli_insert_id($this->con);
 		}
 
@@ -128,13 +148,13 @@ class SyncSong {
 	public function alubmArtSave($img, $mime, $songAlbum) {
 		if ($img != "None") {
 			$extension = ".jpg";
-			if ($mime == "image/jpeg" || $mime == "image/jpg" || $mime == "jpeg" || $mime == "jpg") {
+			if ($mime === "image/jpeg" || $mime === "image/jpg" || $mime === "jpeg" || $mime === "jpg") {
 				$extension = ".jpg";
 			}
-			elseif ($mime == "image/png" || $mime == "png") {
+			elseif ($mime === "image/png" || $mime === "png") {
 				$extension = ".png";
 			}
-			elseif ($mime == "image/bmp" || $mime == ".bmp") {
+			elseif ($mime === "image/bmp" || $mime === ".bmp") {
 				$extension = ".bmp";
 			}
 			else {
@@ -162,14 +182,21 @@ class SyncSong {
 
 	public function albumInsert($title, $artist, $genre, $artworkPath) {
 		$albumID = NULL;
-		$albumExists = mysqli_query($this->con, "SELECT * FROM albums WHERE title='$title'");
-		$row = mysqli_fetch_array($albumExists);
-		if (!empty($row)) {
+		$albumExistsStmt = $this->con->prepare("SELECT * FROM albums WHERE title=?");
+		$albumExistsStmt->bind_param("s", $title);
+		$albumExistsStmt->execute();
+		$result = $albumExistsStmt->get_result();
+		$albumExistsStmt->close();
+		if ($result and $result->num_rows > 0) {
 			// artist already exists in db, use the album ID that has already been set
+			$row = $result->fetch_assoc();
 			$albumID = $row['id'];
 		}
 		else {
-			mysqli_query($this->con, "INSERT INTO albums VALUES(NULL, '$title', '$artist', '$genre', '$artworkPath')");
+			$ins = $this->con->prepare("INSERT INTO albums (title, artist, genre, artworkPath) VALUE (?, ?, ?, ?)");
+			$ins->bind_param("siis", $title, $artist, $genre, $artworkPath);
+			$ins->execute();
+			$ins->close();
 			$albumID = mysqli_insert_id($this->con);
 		}
 

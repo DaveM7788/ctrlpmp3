@@ -229,6 +229,13 @@ $ sudo systemctl restart apache2
 6. Enable HTTPS by following the guide linked below. This is of particular importance if you plan to access your server instance from public Wi-Fi
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04
 
+# macOS XAMPP Development Environment Note
+
+If you are on macOS and are unable to Sync Music, it's likely you will need to allow permissions for the javascript and audio files
+
+Visit the link below for more info. The key is to apply the changes to enclosed items. For the Name, choose everyone. Allow Read&Write.
+https://support.apple.com/guide/mac-help/change-permissions-for-files-folders-or-disks-mchlp1203/mac
+
 # References
 This project makes use of the fuzzy match library by Forrest Smith. See more info at https://www.forrestthewoods.com/blog/reverse_engineering_sublime_texts_fuzzy_match/
 
