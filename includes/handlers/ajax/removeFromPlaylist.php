@@ -5,7 +5,10 @@ if (isset($_POST['playlistId']) && isset($_POST['songId'])) {
 	$playlistId = $_POST['playlistId'];
 	$songId = $_POST['songId'];
 
-	$query = mysqli_query($con, "DELETE FROM playlistsongs WHERE playlistId='$playlistId' AND songId='$songId'");
+	$stmt = $con->prepare("DELETE FROM playlistsongs WHERE playlistId=? AND songId=?");
+	$stmt->bind_param("ii", $playlistId, $songId);
+	$stmt->execute();
+	$stmt->close();
 }
 else {
 	echo "Playlist Id or Song Id was not passed";

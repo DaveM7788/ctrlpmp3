@@ -68,13 +68,12 @@ $artist = new Artist($con, $artistId);
 <div class="gridViewContainer">
 	<h2>Albums</h2>
 	<?php
-	//$albumQuery = mysqli_query($con, "SELECT * FROM albums WHERE artist='$artistId'");
 	$stmt = $con->prepare("SELECT * FROM albums WHERE artist=?");
 	$stmt->bind_param("i", $artistId);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
-	
+
 	while ($row = $result->fetch_assoc()) {
 		echo "<div class='gridViewItem'>
 				<span role='link' tabindex='0' onclick='openPage(\"album.php?id=" . htmlspecialchars($row['id']) . "\")'>

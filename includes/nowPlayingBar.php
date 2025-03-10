@@ -1,7 +1,11 @@
 <?php
-$songQuery = mysqli_query($con, "SELECT id FROM songs ORDER BY RAND() LIMIT 10");
+$stmt = $con->prepare("SELECT id FROM songs ORDER BY RAND() LIMIT 10");
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+
 $resultArray = array();
-while ($row = mysqli_fetch_array($songQuery)) {
+while ($row = $result->fetch_assoc()) {
     array_push($resultArray, $row['id']);
 }
 
