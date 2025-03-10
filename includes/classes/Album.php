@@ -11,8 +11,13 @@ class Album {
 		$this->con = $con;
 		$this->id = $id;
 
-		$query = mysqli_query($this->con, "SELECT * FROM albums WHERE id='$this->id'");
-		$album = mysqli_fetch_array($query);
+		$stmt = $this->con->prepare("SELECT * FROM albums WHERE id=?");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+		$album = $result->fetch_assoc();
 		$this->title = $album['title'];
 		$this->artistId = $album['artist'];
 		$this->genre = $album['genre'];
@@ -36,14 +41,23 @@ class Album {
 	}
 
 	public function getNumberOfSongs() {
-		$query = mysqli_query($this->con, "SELECT id FROM songs WHERE album='$this->id'");
-		return mysqli_num_rows($query);
+		$stmt = $this->con->prepare("SELECT id FROM songs WHERE album=?");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		return $result->num_rows;
 	}
 
 	public function getSongIds() {
-		$query = mysqli_query($this->con, "SELECT id FROM songs WHERE album='$this->id' ORDER BY albumOrder ASC");
+		$stmt = $this->con->prepare("SELECT id FROM songs WHERE album=? ORDER BY albumOrder ASC");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
 		$arrayIds = array();
-		while ($row = mysqli_fetch_array($query)) {
+		while ($row = $result->fetch_assoc()) {
 			array_push($arrayIds, $row['id']);
 		}
 		return $arrayIds;

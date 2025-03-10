@@ -22,9 +22,14 @@ class Artist {
 	}
 
 	public function getSongIds() {
-		$query = mysqli_query($this->con, "SELECT id FROM songs WHERE artist='$this->id' ORDER BY plays ASC");
+		$stmt = $this->con->prepare("SELECT id FROM songs WHERE artist=? ORDER BY plays ASC");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
 		$arrayIds = array();
-		while ($row = mysqli_fetch_array($query)) {
+		while ($row = $result->fetch_assoc()) {
 			array_push($arrayIds, $row['id']);
 		}
 		return $arrayIds;
