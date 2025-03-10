@@ -11,13 +11,17 @@ include("includes/includedFiles.php");
 
 		<?php
 		$username = $userLoggedIn->getUsername();
-		$playlistsQuery = mysqli_query($con, "SELECT * FROM playlists WHERE owner='$username'");
-		
-		if (mysqli_num_rows($playlistsQuery) == 0) {
+
+		$stmt = $con->prepare("SELECT * FROM playlists WHERE owner=?");
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if ($result and $result->num_rows == 0) {
 			echo "<span class='noResults'>No playlists found</span>";
 		}
 
-		while ($row = mysqli_fetch_array($playlistsQuery)) {
+		while ($row = $result->fetch_assoc()) {
 			$playlist = new Playlist($con, $row);
 			echo "<div class='gridViewItem' role='link' tabindex='0' onclick='openPage(\"playlist.php?id=" . $playlist->getId() . "\")'>
 						<div class='playlistImage'>
@@ -25,11 +29,11 @@ include("includes/includedFiles.php");
 						</div>
 
 						<div class='gridViewInfo'>"
-						. $playlist->getName() .
+						. htmlspecialchars($playlist->getName()) .
 						"</div>
 				  </div>
 				 ";
-		}
+		}		
 		?>
 	</div>
 	

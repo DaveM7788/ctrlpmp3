@@ -8,8 +8,12 @@ class Playlist {
 	public function __construct($con, $data) {
 		if (!is_array($data)) {
 			// data is an id (string), needs to be an array
-			$query = mysqli_query($con, "SELECT * FROM playlists WHERE id='$data'");
-			$data = mysqli_fetch_array($query);
+			$stmt = $con->prepare("SELECT * FROM playlists WHERE id=?");
+			$stmt->bind_param("i", $data);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+			$data = $result->fetch_assoc();
 		}
 
 		$this->con = $con;
@@ -31,14 +35,23 @@ class Playlist {
 	}
 
 	public function getNumberOfSongs() {
-		$query = mysqli_query($this->con, "SELECT songId FROM playlistsongs WHERE playlistId='$this->id'");
-		return mysqli_num_rows($query);
+		$stmt = $this->con->prepare("SELECT songId FROM playlistsongs WHERE playlistId=?");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		return $result->num_rows;
 	}
 
 	public function getSongIds() {
-		$query = mysqli_query($this->con, "SELECT songId FROM playlistsongs WHERE playlistId='$this->id' ORDER BY playlistOrder ASC");
+		$stmt = $this->con->prepare("SELECT songId FROM playlistsongs WHERE playlistId=? ORDER BY playlistOrder ASC");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
 		$arrayIds = array();
-		while ($row = mysqli_fetch_array($query)) {
+		while ($row = $result->fetch_assoc()) {
 			array_push($arrayIds, $row['songId']);
 		}
 		return $arrayIds;
@@ -49,11 +62,15 @@ class Playlist {
 		$dropdown = '<select class="item playlist">
 					<option value="">Add to playlist</option>';
 
-		$query = mysqli_query($con, "SELECT id, name FROM playlists WHERE owner='$username'");
-		while ($row = mysqli_fetch_array($query)) {
-			$id = $row['id'];
-			$name = $row['name'];
-			$dropdown = $dropdown . "<option value='$id'>$name</option>";
+		$stmt = $con->prepare("SELECT id, name FROM playlists WHERE owner=?");
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		while ($row = $result->fetch_assoc()) {
+			$idSanitized = htmlspecialchars($row['id']);
+			$nameSanitized = htmlspecialchars($row['name']);
+			$dropdown = $dropdown . "<option value='$idSanitized'>$nameSanitized</option>";
 		}
 		return $dropdown . "</select>";
 	}
