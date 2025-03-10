@@ -8,8 +8,8 @@ include("includes/classes/Playlist.php");
 
 if (isset($_SESSION['userLoggedIn'])) {
 	$userLoggedIn = new User($con, $_SESSION['userLoggedIn']);
-	$username = $userLoggedIn->getUsername();
-	echo "<script>userLoggedIn='$username'</script>";
+	$usernameSanitized = htmlspecialchars($userLoggedIn->getUsername());
+	echo "<script>userLoggedIn='$usernameSanitized'</script>";
 }
 else {
 	header("Location: register.php");

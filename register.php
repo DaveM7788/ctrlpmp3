@@ -6,9 +6,9 @@ $account = new Account($con);
 
 include("includes/handlers/login-handler.php");
 
-function getInputValue($name) {
+function getInputValueSanitized($name) {
 	if (isset($_POST[$name])) {
-		echo $_POST[$name];
+		echo htmlspecialchars($_POST[$name]);
 	}
 }
 
@@ -33,7 +33,8 @@ function getInputValue($name) {
 					<p>
 						<?php echo $account->getError(Constants::$loginFailed) ?>
 						<label for="loginUsername">Username: </label>
-						<input id="loginUsername" type="text" name="loginUsername" placeholder="My Username" value="<?php getInputValue('loginUsername'); ?>" required="">
+						<input id="loginUsername" type="text" name="loginUsername" placeholder="My Username" 
+						value="<?php getInputValueSanitized('loginUsername'); ?>" required="">
 					</p>
 					<p>
 						<label for="loginPassword">Password: </label>

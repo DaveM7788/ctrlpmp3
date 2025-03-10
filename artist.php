@@ -14,7 +14,7 @@ $artist = new Artist($con, $artistId);
 <div class="entityInfo borderBottom">
 	<div class="centerSection">
 		<div class="artistInfo">
-			<h1 class="artistName"><?php echo $artist->getName(); ?></h1>
+			<h1 class="artistName"><?php echo htmlspecialchars($artist->getName()); ?></h1>
 
 			<div class="headerButtons">
 				<button class="button green" onclick="playFirstSong()">Play</button>
@@ -35,22 +35,22 @@ $artist = new Artist($con, $artistId);
 
 			echo "<li class='tracklistRow'>
 				<div class='trackCount'>
-					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . $albumSong->getId() . "\", tempPlaylist, true)'>
-					<span class='trackNumber'>$i</span>
+					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . htmlspecialchars($albumSong->getId()) . "\", tempPlaylist, true)'>
+					<span class='trackNumber'>" . htmlspecialchars($i) . "</span>
 				</div>
 
 				<div class='trackInfo'>
-					<span class='trackName'>" . $albumSong->getTitle() . "</span>
-					<span class='artistName'>" . $albumArtist->getName() . "</span>
+					<span class='trackName'>" . htmlspecialchars($albumSong->getTitle()) . "</span>
+					<span class='artistName'>" . htmlspecialchars($albumArtist->getName()) . "</span>
 				</div>
 
 				<div class='trackOptions'>
-					<input type='hidden' class='songId' value='" . $albumSong->getId() . "'>
+					<input type='hidden' class='songId' value='" . htmlspecialchars($albumSong->getId()) . "'>
 					<img class='optionsButton' src='assets/images/icons/more-purp.png' onclick='showOptionsMenu(this)'>
 				</div>
 
 				<div class='trackDuration'>
-					<span class='duration'>" . $albumSong->getDuration() . "</span>
+					<span class='duration'>" . htmlspecialchars($albumSong->getDuration()) . "</span>
 				</div>
 			</li>";
 
@@ -68,13 +68,19 @@ $artist = new Artist($con, $artistId);
 <div class="gridViewContainer">
 	<h2>Albums</h2>
 	<?php
-	$albumQuery = mysqli_query($con, "SELECT * FROM albums WHERE artist='$artistId'");
-	while ($row = mysqli_fetch_array($albumQuery)) {
+	//$albumQuery = mysqli_query($con, "SELECT * FROM albums WHERE artist='$artistId'");
+	$stmt = $con->prepare("SELECT * FROM albums WHERE artist=?");
+	$stmt->bind_param("i", $artistId);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+	
+	while ($row = $result->fetch_assoc()) {
 		echo "<div class='gridViewItem'>
-				<span role='link' tabindex='0' onclick='openPage(\"album.php?id=" . $row['id'] . "\")'>
-					<img src='" . $row['artworkPath'] . "'>
+				<span role='link' tabindex='0' onclick='openPage(\"album.php?id=" . htmlspecialchars($row['id']) . "\")'>
+					<img src='" . htmlspecialchars($row['artworkPath']) . "'>
 					<div class='gridViewInfo'>"
-					. $row['title'] .
+					. htmlspecialchars($row['title']) .
 					"</div>
 				</span>
 			  </div>

@@ -14,8 +14,13 @@ class Song {
 		$this->con = $con;
 		$this->id = $id;
 
-		$query = mysqli_query($this->con, "SELECT * FROM songs WHERE id='$this->id'");
-		$this->mysqliData = mysqli_fetch_array($query);
+		$stmt = $this->con->prepare("SELECT * FROM songs WHERE id=?");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		$this->mysqliData = $result->fetch_assoc();
+
 		$this->title = $this->mysqliData['title'];
 		$this->artistId = $this->mysqliData['artist'];
 		$this->albumId = $this->mysqliData['album'];

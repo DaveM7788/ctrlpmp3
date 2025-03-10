@@ -28,7 +28,8 @@
                 <span role="link" tabindex="0" onclick="openPage('sync.php')" class="navItemLink">Sync Music</span>
             </div>
             <div class="navItem">
-                <span role="link" tabindex="0" onclick="openPage('settings.php')" class="navItemLink">Settings for <?php echo $userLoggedIn->getUsername(); ?></span>
+                <span role="link" tabindex="0" onclick="openPage('settings.php')" 
+                class="navItemLink">Settings for <?php echo htmlspecialchars($userLoggedIn->getUsername()); ?></span>
             </div>
             <div class="navItem">
                 <span role="link" tabindex="0" onclick="logout()" class="navItemLink">Log Out</span>

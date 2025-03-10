@@ -23,7 +23,7 @@ include("includes/includedFiles.php");
 
 		while ($row = $result->fetch_assoc()) {
 			$playlist = new Playlist($con, $row);
-			echo "<div class='gridViewItem' role='link' tabindex='0' onclick='openPage(\"playlist.php?id=" . $playlist->getId() . "\")'>
+			echo "<div class='gridViewItem' role='link' tabindex='0' onclick='openPage(\"playlist.php?id=" . htmlspecialchars($playlist->getId()) . "\")'>
 						<div class='playlistImage'>
 						<img src='assets/images/icons/playlist-cust.png'>
 						</div>

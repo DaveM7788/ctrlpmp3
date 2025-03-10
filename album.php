@@ -14,13 +14,13 @@ $artist = $album->getArtist();
 
 <div class="entityInfo">
 	<div class="leftSection">
-		<img src="<?php echo $album->getArtworkPath(); ?>">
+		<img src="<?php echo htmlspecialchars($album->getArtworkPath()); ?>">
 	</div>
 	<div class="rightSection">
-		<h2><?php echo $album->getTitle(); ?></h2>
-		<p class="pclickable" onclick="openPage('artist.php?id= <?php echo $artist->getId() ?>')">
-		By <?php echo $artist->getName(); ?></p>
-		<p><?php echo $album->getNumberOfSongs(); ?> Songs</p>
+		<h2><?php echo htmlspecialchars($album->getTitle()); ?></h2>
+		<p class="pclickable" onclick="openPage('artist.php?id= <?php echo htmlspecialchars($artist->getId()) ?>')">
+		By <?php echo htmlspecialchars($artist->getName()); ?></p>
+		<p><?php echo htmlspecialchars($album->getNumberOfSongs()); ?> Songs</p>
 	</div>
 </div>
 
@@ -35,22 +35,22 @@ $artist = $album->getArtist();
 
 			echo "<li class='tracklistRow'>
 				<div class='trackCount'>
-					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . $albumSong->getId() . "\", tempPlaylist, true)'>
+					<img class='play' src='assets/images/icons/play-purp-small.png' onclick='setTrack(\"" . htmlspecialchars($albumSong->getId()) . "\", tempPlaylist, true)'>
 					<span class='trackNumber'>$i</span>
 				</div>
 
 				<div class='trackInfo'>
-					<span class='trackName'>" . $albumSong->getTitle() . "</span>
-					<span class='artistName'>" . $albumArtist->getName() . "</span>
+					<span class='trackName'>" . htmlspecialchars($albumSong->getTitle()) . "</span>
+					<span class='artistName'>" . htmlspecialchars($albumArtist->getName()) . "</span>
 				</div>
 
 				<div class='trackOptions'>
-					<input type='hidden' class='songId' value='" . $albumSong->getId() . "'>
+					<input type='hidden' class='songId' value='" . htmlspecialchars($albumSong->getId()) . "'>
 					<img class='optionsButton' src='assets/images/icons/more-purp.png' onclick='showOptionsMenu(this)'>
 				</div>
 
 				<div class='trackDuration'>
-					<span class='duration'>" . $albumSong->getDuration() . "</span>
+					<span class='duration'>" . htmlspecialchars($albumSong->getDuration()) . "</span>
 				</div>
 			</li>";
 

@@ -1,17 +1,17 @@
 <?php
-function exorciseEvil($evil) {
-	$evil = trim($evil);
-	$evil = stripslashes($evil);
-	$good = htmlspecialchars($evil);
-	return $good; // good now
+function cleanPostInput($userInput) {
+	$userInput = trim($userInput);
+	$userInput = stripslashes($userInput);
+	$good = htmlspecialchars($userInput);
+	return $good;
 }
 
 if (isset($_POST['loginButton'])) {
-	$username = exorciseEvil($_POST['loginUsername']);
-	$password = exorciseEvil($_POST['loginPassword']);
+	$username = cleanPostInput($_POST['loginUsername']);
+	$password = cleanPostInput($_POST['loginPassword']);
 
-	// naive throttle (this app is designed to be used by one or a few users)
-	usleep(300000);
+	// basic throttle (this app is designed to be used by one or a few users)
+	usleep(200000);
 
 	$result = $account->login($username, $password);
 	if ($result) {
