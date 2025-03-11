@@ -3,29 +3,42 @@ include("../../config.php");
 include("../../classes/FuzzyData.php");
 
 $errors = "";
-if (!mysqli_query($con, "DELETE FROM songs")) {
+
+$stmt = $con->prepare("DELETE FROM songs");
+if (!$stmt->execute()) {
     $errors .= "could not delete songs ";
 }
+$stmt->close();
 
-if (!mysqli_query($con, "DELETE FROM artists")) {
+$stmt = $con->prepare("DELETE FROM artists");
+if (!$stmt->execute()) {
     $errors .= "could not delete artists ";
 }
+$stmt->close();
 
-if (!mysqli_query($con, "DELETE FROM albums")) {
+$stmt = $con->prepare("DELETE FROM albums");
+if (!$stmt->execute()) {
     $errors .= "could not delete albums ";
 }
+$stmt->close();
 
-if (!mysqli_query($con, "DELETE FROM genres")) {
+$stmt = $con->prepare("DELETE FROM genres");
+if (!$stmt->execute()) {
     $errors .= "could not delete genres ";
 }
+$stmt->close();
 
-if (!mysqli_query($con, "DELETE FROM playlists")) {
+$stmt = $con->prepare("DELETE FROM playlists");
+if (!$stmt->execute()) {
     $errors .= "could not delete playlists ";
 }
+$stmt->close();
 
-if (!mysqli_query($con, "DELETE FROM playlistsongs")) {
+$stmt = $con->prepare("DELETE FROM playlistsongs");
+if (!$stmt->execute()) {
     $errors .= "could not delete playlist songs ";
 }
+$stmt->close();
 
 // need to empty out the files of fuzzy match data
 $fuzzyData = new FuzzyData($con);
