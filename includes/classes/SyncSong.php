@@ -48,7 +48,6 @@ class SyncSong {
 	public function getAudioData($f) {
 		$songDuration = "0";
 		$songTitle = "None";
-		//$songTitle = $f['filenamepath'];
 		$songAlbum = "None";
 		$songArtist = "None";
 		$songGenre = "None";
@@ -109,7 +108,8 @@ class SyncSong {
 		$stmt->close();
 		if ($result and $result->num_rows > 0) {
 			$row = $result->fetch_assoc();
-			$artistID = $row['id'];  // artist already exists in db, use the ID that has already been set
+			// artist already exists in db, use the ID that has already been set
+			$artistID = $row['id'];
 		} else {
 			$ins = $this->con->prepare("INSERT INTO artists (name) VALUES(?)");
 			$ins->bind_param("s", $artist);
@@ -227,9 +227,12 @@ class SyncSong {
 	}
 
 	public function getTotalSongCount() {
-		// no user input, no need for prepared statement
-		$genreExists = mysqli_query($this->con, "SELECT COUNT(1) FROM songs");
-		$row = mysqli_fetch_array($genreExists);
+		//$genreExists = mysqli_query($this->con, "SELECT COUNT(1) FROM songs");
+		$stmt = $this->con->prepare("SELECT COUNT(1) FROM songs");
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		$row = $result->fetch_row();
 		if (!empty($row)) {
 			return $row[0];
 		}

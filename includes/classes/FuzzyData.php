@@ -38,9 +38,12 @@ class FuzzyData {
 	}
 
     public function fuzzyDataUpdate() {
-		// no user input, no need for prepared statement
-        $query = mysqli_query($this->con, "SELECT id,title FROM songs");
-        while ($row = mysqli_fetch_array($query)) {
+		$stmt = $this->con->prepare("SELECT id,title FROM songs");
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+        while ($row = $result->fetch_assoc()) {
 			array_push($this->songIDArray, $row['id']);
             array_push($this->songTitleArray, $row['title']);
 		}

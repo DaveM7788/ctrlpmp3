@@ -10,12 +10,10 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 
 	if (isset($_GET['userLoggedIn'])) {
 		$userLoggedIn = new User($con, $_GET['userLoggedIn']);
-	}
-	else {
+	} else {
 		echo "username was not passed";
 	}
-}
-else {
+} else {
 	include("includes/header.php");
 	include("includes/footer.php");
 

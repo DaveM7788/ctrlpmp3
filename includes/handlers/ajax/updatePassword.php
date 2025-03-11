@@ -16,17 +16,17 @@ if ($_POST['oldPassword'] == "" || $_POST['newPassword1'] == "" || $_POST['newPa
 	exit();
 }
 
-function exorciseEvil($evil) {
-	$evil = trim($evil);
-	$evil = stripslashes($evil);
-	$good = htmlspecialchars($evil);
-	return $good; // good now
+function sanitizeInput($postInput) {
+	$postInput = trim($postInput);
+	$postInput = stripslashes($postInput);
+	$good = htmlspecialchars($postInput);
+	return $good;
 }
 
-$username = exorciseEvil($_POST['username']);
-$oldPassword = exorciseEvil($_POST['oldPassword']);
-$newPassword1 = exorciseEvil($_POST['newPassword1']);
-$newPassword2 = exorciseEvil($_POST['newPassword2']);
+$username = sanitizeInput($_POST['username']);
+$oldPassword = sanitizeInput($_POST['oldPassword']);
+$newPassword1 = sanitizeInput($_POST['newPassword1']);
+$newPassword2 = sanitizeInput($_POST['newPassword2']);
 
 if ($newPassword1 != $newPassword2) {
 	echo "The new passwords do not match" . $newPassword1 . "    " . $newPassword2;
@@ -38,9 +38,14 @@ if (strlen($newPassword1) > 40 || strlen($newPassword1) < 6) {
 	exit();
 }
 
-$query = mysqli_query($con, "SELECT * FROM users WHERE username='$username' LIMIT 1");
-if (mysqli_num_rows($query) == 1) {
-	while ($row = mysqli_fetch_array($query)) {
+$stmt = $con->prepare("SELECT * FROM users WHERE username=? LIMIT 1");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+
+if ($result and $result->num_rows == 1) {
+	while ($row = $result->fetch_assoc()) {
 		if (!password_verify($oldPassword, $row['password'])) {
 			echo "Password is incorrect";
 			exit();
@@ -53,6 +58,9 @@ if (mysqli_num_rows($query) == 1) {
 
 $newPassword1 = strip_tags($newPassword1);
 $newHash = password_hash($newPassword1, PASSWORD_BCRYPT);
-$query = mysqli_query($con, "UPDATE users SET password='$newHash' WHERE username='$username'");
+$stmtUpdate = $con->prepare("UPDATE users SET password=? WHERE username=?");
+$stmtUpdate->bind_param("ss", $newHash, $username);
+$stmtUpdate->execute();
+$stmtUpdate->close();
 
 echo "Update successful";
