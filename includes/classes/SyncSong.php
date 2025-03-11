@@ -227,7 +227,6 @@ class SyncSong {
 	}
 
 	public function getTotalSongCount() {
-		//$genreExists = mysqli_query($this->con, "SELECT COUNT(1) FROM songs");
 		$stmt = $this->con->prepare("SELECT COUNT(1) FROM songs");
 		$stmt->execute();
 		$result = $stmt->get_result();

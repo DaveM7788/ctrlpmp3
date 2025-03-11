@@ -6,4 +6,5 @@ class Constants {
 	public static $usernameCharacters = "Your username must be between 5 and 25 characters";
 
 	public static $loginFailed = "Your username or password was incorrect";
+	public static $loginFailedCsrf = "Your login request failed because the form data could not be trusted";
 }

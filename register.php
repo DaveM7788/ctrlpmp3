@@ -2,6 +2,7 @@
 include("includes/config.php");
 include("includes/classes/Account.php");
 include("includes/classes/Constants.php");
+include("includes/classes/Util.php");
 $account = new Account($con);
 
 include("includes/handlers/login-handler.php");
@@ -32,9 +33,11 @@ function getInputValueSanitized($name) {
 					<h2>Login to your account</h2>
 					<p>
 						<?php echo $account->getError(Constants::$loginFailed) ?>
+						<?php echo $account->getError(Constants::$loginFailedCsrf) ?>
 						<label for="loginUsername">Username: </label>
 						<input id="loginUsername" type="text" name="loginUsername" placeholder="My Username" 
 						value="<?php getInputValueSanitized('loginUsername'); ?>" required="">
+						<input type="hidden" name="csrf" value="<?php echo Util::hashCsrf(); ?>">
 					</p>
 					<p>
 						<label for="loginPassword">Password: </label>

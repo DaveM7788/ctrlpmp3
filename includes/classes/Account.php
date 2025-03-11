@@ -33,4 +33,8 @@ class Account {
 		}
 		return "<span class='errorMessage'>$error</span>";
 	}
+
+	public function setLoginFailureErrorCsrf() {
+		array_push($this->errorArray, Constants::$loginFailedCsrf);
+	}
 }
