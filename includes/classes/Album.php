@@ -1,5 +1,4 @@
 <?php
-include("Util.php");
 
 class Album {
 	private $con;
@@ -77,7 +76,7 @@ class Album {
 			}
 			$totalSecondsAll = $totalSecondsAll + $totalSecondsSong;
 		}
-		return Util::formatSecondsHhMmSs($totalSecondsAll, ":");
+		return $this->formatSecondsHhMmSs($totalSecondsAll, ":");
 	}
 
 	public function getSongIds() {
@@ -93,4 +92,8 @@ class Album {
 		}
 		return $arrayIds;
 	}
+
+	public function formatSecondsHhMmSs($t,$f=':') {
+        return sprintf("%02d%s%02d%s%02d", floor($t/3600), $f, ($t/60)%60, $f, $t%60);
+    }
 }
