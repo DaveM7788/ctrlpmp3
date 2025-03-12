@@ -157,23 +157,24 @@ $jsonArray = json_encode($resultArray);
 
         if (shuffle) {
             currentIndex = shufflePlaylist.indexOf(trackId);
-        }
-        else {
+        } else {
             currentIndex = currentPlaylist.indexOf(trackId);
         }
         pauseSong();
 
-        $.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
+        var csrfHash = document.getElementById("csrfHeader").value;
+
+        $.post("includes/handlers/ajax/getSongJson.php", { songId: trackId, csrf: csrfHash }, function(data) {
             var track = JSON.parse(data);
             $(".trackName span").text(track.title);
 
-            $.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
+            $.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist, csrf: csrfHash }, function(data) {
                 var artist = JSON.parse(data);
                 $(".trackInfo .artistName span").text(artist.name);
                 $(".trackInfo .artistName span").attr("onclick", "openPage('artist.php?id=" + artist.id + "')");
             });
 
-            $.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
+            $.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album, csrf: csrfHash }, function(data) {
                 var album = JSON.parse(data);
                 $(".content .albumLink img").attr("src", album.artworkPath);
                 $(".content .albumLink img").attr("onclick", "openPage('album.php?id=" + album.id + "')");
@@ -188,9 +189,10 @@ $jsonArray = json_encode($resultArray);
     }
 
     function playSong() {
+        var csrfHash = document.getElementById("csrfHeader").value;
         if (audioElement.audio.currentTime == 0) {
             // update play count
-            $.post("includes/handlers/ajax/updatePlays.php", { songId: audioElement.currentlyPlaying.id} );
+            $.post("includes/handlers/ajax/updatePlays.php", { songId: audioElement.currentlyPlaying.id, csrf: csrfHash} );
         }
         $(".controlButton.play").hide();
         $(".controlButton.pause").show();

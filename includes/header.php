@@ -5,13 +5,13 @@ include("includes/classes/Artist.php");
 include("includes/classes/Album.php");
 include("includes/classes/Song.php");
 include("includes/classes/Playlist.php");
+include("includes/classes/Util.php");
 
 if (isset($_SESSION['userLoggedIn'])) {
 	$userLoggedIn = new User($con, $_SESSION['userLoggedIn']);
 	$usernameSanitized = htmlspecialchars($userLoggedIn->getUsername());
 	echo "<script>userLoggedIn='$usernameSanitized'</script>";
-}
-else {
+} else {
 	header("Location: register.php");
 }
 ?>
@@ -30,6 +30,8 @@ else {
 	<link rel="icon" href="assets/images/controlp_sq_jpg.jpg">
 </head>
 <body>
+
+	<input type="hidden" id="csrfHeader" value="<?php echo Util::hashCsrf(); ?>">
 
 	<div id="ctrlpModal" class="ctrlp-modal-normal">
 		<div class="ctrlp-modal-normal-content">

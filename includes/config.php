@@ -1,7 +1,7 @@
 <?php
 ob_start();  // turns on output buffering
 session_start();
-session_regenerate_id(true);
+session_regenerate_id(false);
 if (empty($_SESSION['csrfToken'])) {
 	$_SESSION['csrfToken'] = bin2hex(random_bytes(32));
 }
