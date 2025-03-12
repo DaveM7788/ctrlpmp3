@@ -1,3 +1,4 @@
+<!doctype html>
 <?php
 include("includes/config.php");
 include("includes/classes/User.php");
@@ -16,7 +17,6 @@ if (isset($_SESSION['userLoggedIn'])) {
 }
 ?>
 
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Ctrl-P MP3</title>

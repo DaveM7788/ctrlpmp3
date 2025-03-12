@@ -21,6 +21,7 @@ $artist = $album->getArtist();
 		<p class="pclickable" onclick="openPage('artist.php?id= <?php echo htmlspecialchars($artist->getId()) ?>')">
 		By <?php echo htmlspecialchars($artist->getName()); ?></p>
 		<p><?php echo htmlspecialchars($album->getNumberOfSongs()); ?> Songs</p>
+		<p><?php echo htmlspecialchars($album->getAlbumDuration()); ?> Play Time</p>
 	</div>
 </div>
 

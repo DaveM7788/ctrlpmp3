@@ -1,6 +1,7 @@
 <?php
 include("../../config.php");
 include("../../classes/Util.php");
+
 if (isset($_POST['songId']) && isset($_POST['csrf'])) {
 	if (hash_equals(Util::hashCsrf(), $_POST['csrf'])) {
 		$songId = $_POST['songId'];

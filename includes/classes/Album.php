@@ -1,4 +1,6 @@
 <?php
+include("Util.php");
+
 class Album {
 	private $con;
 	private $id;
@@ -47,6 +49,35 @@ class Album {
 		$result = $stmt->get_result();
 		$stmt->close();
 		return $result->num_rows;
+	}
+
+	public function getAlbumDuration() {
+		$stmt = $this->con->prepare("SELECT duration FROM songs WHERE album=?");
+		$stmt->bind_param("i", $this->id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+		$totalSecondsAll = 0;
+		while ($row = $result->fetch_assoc()) {
+			$oneSongDuration = $row['duration'];
+			$timeArray = explode(":", $oneSongDuration);
+			$totalSecondsSong = 0;
+			if (sizeof($timeArray) == 1) {
+				$totalSecondsSong = (int)$timeArray[0];
+			} else if (sizeof($timeArray) == 2) {
+				$seconds = (int)$timeArray[1];
+				$minutes = (int)$timeArray[0];
+				$totalSecondsSong = $seconds + ($minutes * 60);
+			} else if (sizeof($timeArray) == 3) {
+				$seconds = (int)$timeArray[2];
+				$minutes = (int)$timeArray[1];
+				$hours = (int)$timeArray[0];
+				$totalSecondsSong = $seconds + ($minutes * 60) + ($hours * 3600);
+			}
+			$totalSecondsAll = $totalSecondsAll + $totalSecondsSong;
+		}
+		return Util::formatSecondsHhMmSs($totalSecondsAll, ":");
 	}
 
 	public function getSongIds() {
