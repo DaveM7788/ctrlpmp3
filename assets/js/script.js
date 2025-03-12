@@ -29,7 +29,8 @@ $(document).on("change", "select.playlist", function() {
 	var select = $(this);
 	var playlistId = $(this).val();
 	var songId = $(this).prev(".songId").val();
-	$.post("includes/handlers/ajax/addToPlaylist.php", {playlistId: playlistId, songId: songId})
+	var csrfHash = document.getElementById("csrfHeader").value;
+	$.post("includes/handlers/ajax/addToPlaylist.php", {playlistId: playlistId, songId: songId, csrf: csrfHash})
 	.done(function() {
 		hideOptionsMenu();
 		select.val("");
@@ -82,8 +83,10 @@ function playFirstSong() {
 }
 
 function removeFromPlaylist(button, playlistId) {
+	var csrfHash = document.getElementById("csrfHeader").value;
 	var songId = $(button).prevAll(".songId").val();
-	$.post("includes/handlers/ajax/removeFromPlaylist.php", {playlistId: playlistId, songId: songId})
+	var csrfHash = document.getElementById("csrfHeader").value;
+	$.post("includes/handlers/ajax/removeFromPlaylist.php", {playlistId: playlistId, songId: songId, csrf: csrfHash})
 	.done(function(error) {
 		// when ajax returns
 		if (error != "") {
@@ -95,9 +98,10 @@ function removeFromPlaylist(button, playlistId) {
 }
 
 function createPlaylist() {
+	var csrfHash = document.getElementById("csrfHeader").value;
 	var popup = prompt("Please enter the name of your playlist");
 	if (popup != null) {
-		$.post("includes/handlers/ajax/createPlaylist.php", {name: popup, username: userLoggedIn})
+		$.post("includes/handlers/ajax/createPlaylist.php", {name: popup, username: userLoggedIn, csrf: csrfHash})
 		.done(function(error) {
 			// when ajax returns
 			if (error != "") {
@@ -110,9 +114,10 @@ function createPlaylist() {
 }
 
 function deletePlaylist(playlistId) {
+	var csrfHash = document.getElementById("csrfHeader").value;
 	var prompt = confirm("Are you sure you want to delete this playlist?");
 	if (prompt) {
-		$.post("includes/handlers/ajax/deletePlaylist.php", {playlistId: playlistId})
+		$.post("includes/handlers/ajax/deletePlaylist.php", {playlistId: playlistId, csrf: csrfHash})
 		.done(function(error) {
 			// when ajax returns
 			if (error != "") {
@@ -127,7 +132,8 @@ function deletePlaylist(playlistId) {
 function syncMusic() {
 	var changeBtnTxt = document.getElementById("syncMusicBtn");
 	changeBtnTxt.innerHTML = "Syncing..."
-	$.post("includes/handlers/ajax/syncMusic.php")
+	var csrfHash = document.getElementById("csrfHeader").value;
+	$.post("includes/handlers/ajax/syncMusic.php", { csrf: csrfHash })
 	.done(function(error) {
 		changeBtnTxt.innerHTML = "Sync Music"
 		if (error != "") {
@@ -138,8 +144,9 @@ function syncMusic() {
 }
 
 function deleteMusicDB() {
+	var csrfHash = document.getElementById("csrfHeader").value;
 	if (confirm("Are you sure want to reset the database?")) {
-		$.post("includes/handlers/ajax/deleteMusicDB.php")
+		$.post("includes/handlers/ajax/deleteMusicDB.php", { csrf: csrfHash })
 		.done(function(error) {
 			if (error != "") {
 				alert(error);
@@ -170,17 +177,19 @@ function showOptionsMenu(button) {
 }
 
 function logout() {
-	$.post("includes/handlers/ajax/logout.php", function() {
+	var csrfHash = document.getElementById("csrfHeader").value;
+	$.post("includes/handlers/ajax/logout.php", { csrf: csrfHash }, function() {
 		location.reload();
 	});
 }
 
 function updatePassword(oldPasswordClass, newPasswordClass1, newPasswordClass2) {
+	var csrfHash = document.getElementById("csrfHeader").value;
 	var oldPassword = $("." + oldPasswordClass).val();
 	var newPassword1 = $("." + newPasswordClass1).val();
 	var newPassword2 = $("." + newPasswordClass2).val();
 	$.post("includes/handlers/ajax/updatePassword.php", 
-		{oldPassword: oldPassword, newPassword1: newPassword1, newPassword2: newPassword2, username: userLoggedIn})
+		{oldPassword: oldPassword, newPassword1: newPassword1, newPassword2: newPassword2, username: userLoggedIn, csrf: csrfHash})
 	.done(function(response) {
 		$("." + oldPasswordClass).nextAll(".message").text(response);
 	});

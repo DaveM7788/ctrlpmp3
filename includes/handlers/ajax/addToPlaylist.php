@@ -1,5 +1,15 @@
 <?php
 include("../../config.php");
+include("../../classes/Util.php");
+
+if (!isset($_POST['csrf'])) {
+	echo "Request could not be validated";
+	exit();
+}
+if (!hash_equals(Util::hashCsrf(), $_POST['csrf'])) {
+	echo "Request could not be validated";
+	exit();
+}
 
 if (isset($_POST['playlistId']) && isset($_POST['songId'])) {
 	$playlistId = $_POST['playlistId'];
@@ -18,7 +28,6 @@ if (isset($_POST['playlistId']) && isset($_POST['songId'])) {
 	$stmtInsert->bind_param("iii", $songId, $playlistId, $order);
 	$stmtInsert->execute();
 	$stmtInsert->close();
-}
-else {
+} else {
 	echo "Playlist Id or Song Id was not passed";
 }
