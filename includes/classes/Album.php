@@ -1,5 +1,4 @@
 <?php
-
 class Album {
 	private $con;
 	private $id;
