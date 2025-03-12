@@ -23,3 +23,7 @@ include("includes/includedFiles.php");
 	}
 	?>
 </div>
+
+<script>
+	window.scrollTo(0, 0);
+</script>

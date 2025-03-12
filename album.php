@@ -64,6 +64,11 @@ $artist = $album->getArtist();
 			var tempSongIds = '<?php echo json_encode($songIdArray); ?>';
 			tempPlaylist = JSON.parse(tempSongIds);
 		</script>
+
+		<script>
+			// scroll to top of page
+			window.scrollTo(0, 0);
+		</script>
 	</ul>	
 </div>
 
