@@ -177,7 +177,7 @@ class SyncSong {
 			}
 			return 'assets/images/artwork/' . $imgFilename;
 		}
-		return 'assets/images/artwork/default.jpg';
+		return 'assets/images/controlp_sq_jpg.jpg';
 	}
 
 	public function albumInsert($title, $artist, $genre, $artworkPath) {
