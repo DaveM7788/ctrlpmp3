@@ -1,10 +1,10 @@
 <?php
 class FuzzyData {
 	private $con;
-    private $songIDArray = array();
+	private $songIDArray = array();
 	private $songTitleArray = array();
 
-    public function __construct($con) {
+	public function __construct($con) {
 		$this->con = $con;
 	}
 
@@ -37,19 +37,19 @@ class FuzzyData {
 		}
 	}
 
-    public function fuzzyDataUpdate() {
+	public function fuzzyDataUpdate() {
 		$stmt = $this->con->prepare("SELECT id,title FROM songs");
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$stmt->close();
 
-        while ($row = $result->fetch_assoc()) {
+		while ($row = $result->fetch_assoc()) {
 			array_push($this->songIDArray, $row['id']);
-            array_push($this->songTitleArray, $row['title']);
+			array_push($this->songTitleArray, $row['title']);
 		}
 
-        $this->writeFuzzyDataSource();
-    }
+		$this->writeFuzzyDataSource();
+	}
 
 	public function resetFuzzyData() {
 		$placeholder = 'var dataSets = {"songs" : ["no music in db or stale cache (Ctrl-Shift-R) to refresh"]}';

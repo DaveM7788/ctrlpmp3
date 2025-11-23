@@ -16,37 +16,37 @@ $errors = "";
 
 $stmt = $con->prepare("DELETE FROM songs");
 if (!$stmt->execute()) {
-    $errors .= "could not delete songs ";
+	$errors .= "could not delete songs ";
 }
 $stmt->close();
 
 $stmt = $con->prepare("DELETE FROM artists");
 if (!$stmt->execute()) {
-    $errors .= "could not delete artists ";
+	$errors .= "could not delete artists ";
 }
 $stmt->close();
 
 $stmt = $con->prepare("DELETE FROM albums");
 if (!$stmt->execute()) {
-    $errors .= "could not delete albums ";
+	$errors .= "could not delete albums ";
 }
 $stmt->close();
 
 $stmt = $con->prepare("DELETE FROM genres");
 if (!$stmt->execute()) {
-    $errors .= "could not delete genres ";
+	$errors .= "could not delete genres ";
 }
 $stmt->close();
 
 $stmt = $con->prepare("DELETE FROM playlists");
 if (!$stmt->execute()) {
-    $errors .= "could not delete playlists ";
+	$errors .= "could not delete playlists ";
 }
 $stmt->close();
 
 $stmt = $con->prepare("DELETE FROM playlistsongs");
 if (!$stmt->execute()) {
-    $errors .= "could not delete playlist songs ";
+	$errors .= "could not delete playlist songs ";
 }
 $stmt->close();
 
@@ -55,7 +55,7 @@ $fuzzyData = new FuzzyData($con);
 $fuzzyData->resetFuzzyData();
 
 if (strcmp($errors, "") != 0) {
-    echo "Errors during db reset: " . $errors;
+	echo "Errors during db reset: " . $errors;
 } else {
-    echo "Music deleted";
+	echo "Music deleted";
 }

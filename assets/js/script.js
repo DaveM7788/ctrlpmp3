@@ -16,7 +16,7 @@ $(document).click(function(click) {
 	}
 
 	var modal = document.getElementById('ctrlpModal');
-    if (modal.style.display == "block") {
+	if (modal.style.display == "block") {
 		modal.style.display = "none";
 	}
 });
