@@ -1,6 +1,5 @@
 <?php
-include("includes/includedFiles.php");
-?>
+include "includes/includedFiles.php"; ?>
 
 <div class="entityInfo">
 	<div class="centerSection">
